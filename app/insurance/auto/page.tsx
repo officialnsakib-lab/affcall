@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link'; // লিংক ব্যবহারের জন্য নেক্সট জেসের Link ইমপোর্ট করা হয়েছে
+import Link from 'next/link'; // লিংক ব্যবহারের জন্য নেক্সট জেসের Link ইমপোর্ট করা হয়েছে
 import { useRouter } from 'next/navigation'; // পেজ রিডাইরেক্ট করার জন্য
 
 export default function ApplianceRepairPage() {
@@ -14,7 +14,7 @@ export default function ApplianceRepairPage() {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  // ফর্ম সাবমিট হলে কোথায় যাবে তার হ্যান্ডলার (এখানে আপনার কাঙ্ক্ষিত লিংক বসান)
+  // ফর্ম সাবমিট হলে কোথায় যাবে তার হ্যান্ডলার (এখানে আপনার কাঙ্ক্ষিত লিংক বসান)
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // উদাহরণস্বরূপ সাবমিটের পর Thank You পেজে রিডাইরেক্ট করতে পারেন:
@@ -94,14 +94,20 @@ export default function ApplianceRepairPage() {
           </div>
         </section>
 
-        {/* ==================== 2. BROKEN APPLIANCES CAN'T WAIT ==================== */}
+        {/* ==================== 2. BROKEN APPLIANCES CAN'T WAIT (Video Added) ==================== */}
         <section className="bg-gray-50/50 py-20 border-y border-gray-100">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
-            {/* Image Placeholder */}
+            {/* Video Added */}
             <div className="relative w-full h-[350px] lg:h-[420px] bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300">
-              <span className="text-gray-500 font-medium text-sm">[ এখানে আপনার ফানেল/ইলস্ট্রেশন ছবি বসান ]</span>
-              {/* <Image src="/sa_files" alt="Funnel" fill className="object-cover" /> */}
+              <video 
+                src="/say.mp4" 
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+                className="w-full h-full object-cover"
+              />
             </div>
 
             {/* Content */}
@@ -122,7 +128,7 @@ export default function ApplianceRepairPage() {
           </div>
         </section>
 
-        {/* ==================== 3. REAL REPAIR JOBS SECTION ==================== */}
+        {/* ==================== 3. REAL REPAIR JOBS SECTION (Image sv1.jpeg Added) ==================== */}
         <section className="max-w-7xl mx-auto px-6 py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
@@ -146,7 +152,6 @@ export default function ApplianceRepairPage() {
                 </div>
               </div>
 
-              {/* অতিরিক্ত অ্যাকশন লিংক চাইলে এখানে যুক্ত করতে পারেন */}
               <div className="pt-2">
                 <Link href="/contact" className="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-lg text-sm transition">
                   Get Started Now
@@ -154,21 +159,21 @@ export default function ApplianceRepairPage() {
               </div>
             </div>
 
-            {/* Image Placeholder */}
+            {/* Image sv1.jpeg Added */}
             <div className="relative w-full h-[350px] lg:h-[400px] bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300">
-              <span className="text-gray-500 font-medium text-sm">[ a1.jpeg ]</span>
+              <Image src="/sv1.jpeg" alt="Real Repair Jobs" fill className="object-cover" />
             </div>
 
           </div>
         </section>
 
-        {/* ==================== 4. HOW WE KEEP YOUR PHONE RINGING ==================== */}
+        {/* ==================== 4. HOW WE KEEP YOUR PHONE RINGING (Image sv2.jpeg Added) ==================== */}
         <section className="bg-gray-50/50 py-20 border-y border-gray-100">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
-            {/* Image Placeholder */}
+            {/* Image sv2.jpeg Added */}
             <div className="relative w-full h-[350px] lg:h-[400px] bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300 order-2 lg:order-1">
-              <span className="text-gray-500 font-medium text-sm">[ এখানে ফোন কল ইলস্ট্রেশন ছবি বসান ]</span>
+              <Image src="/sv2.jpeg" alt="Phone Ringing Leads" fill className="object-cover" />
             </div>
 
             <div className="space-y-6 order-1 lg:order-2">
@@ -188,39 +193,49 @@ export default function ApplianceRepairPage() {
           </div>
         </section>
 
-        {/* ==================== 5. BENEFITS OF WORKING WITH US ==================== */}
+        {/* ==================== 5. BENEFITS OF WORKING WITH US (Image sv3.jpeg or Feature enhancement) ==================== */}
         <section className="max-w-7xl mx-auto px-6 py-20">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl font-extrabold text-gray-900">Benefits of Working With Us</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
-            {/* Card 1 */}
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
-              <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">📞</div>
-              <h3 className="text-xl font-bold text-gray-900">Volume</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                We deliver consistent lead flow tailored to your service categories. Partner with AffCall today and enjoy high-volume inbound calls.
-              </p>
+            {/* Left Cards */}
+            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-3 gap-6">
+              
+              {/* Card 1 */}
+              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
+                <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">📞</div>
+                <h3 className="text-xl font-bold text-gray-900">Volume</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  We deliver consistent lead flow tailored to your service categories. Partner with AffCall today and enjoy high-volume inbound calls.
+                </p>
+              </div>
+
+              {/* Card 2 */}
+              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
+                <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">📊</div>
+                <h3 className="text-xl font-bold text-gray-900">Call Tracking</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  All customers are tracked accurately with call recordings, duration, and metrics so you always get measurable results.
+                </p>
+              </div>
+
+              {/* Card 3 */}
+              <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
+                <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">🤝</div>
+                <h3 className="text-xl font-bold text-gray-900">Support</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Our dedicated support team is available around the clock to assist you with campaign adjustments and lead queries.
+                </p>
+              </div>
+
             </div>
 
-            {/* Card 2 */}
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
-              <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">📊</div>
-              <h3 className="text-xl font-bold text-gray-900">Call Tracking</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                All customers are tracked accurately with call recordings, duration, and metrics so you always get measurable results.
-              </p>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
-              <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">🤝</div>
-              <h3 className="text-xl font-bold text-gray-900">Support</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Our dedicated support team is available around the clock to assist you with campaign adjustments and lead queries.
-              </p>
+            {/* Right Image sv3.jpeg Added */}
+            <div className="lg:col-span-5 relative w-full h-[350px] lg:h-[400px] bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300">
+              <Image src="/sv3.jpeg" alt="Premium Calls and Web Leads" fill className="object-cover" />
             </div>
 
           </div>

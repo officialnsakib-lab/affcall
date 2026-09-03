@@ -50,7 +50,6 @@ export default function Home() {
     }
   ];
 
-  // ট্যাব অনুযায়ী আলাদা আলাদা ভার্টিক্যাল ডেটা
   const verticalsData = {
     Insurance: [
       { title: "Auto Insurance", href: "/auto-insurance", icon: "/v1.png" },
@@ -61,19 +60,19 @@ export default function Home() {
       { title: "Final Expense Insurance", href: "/final-expense-insurance", icon: "/v6.png" },
     ],
     "Home Services": [
-      { title: "Appliance Repair Pros", href: "/appliance-repair-pros", icon: "/v1.png" },
-      { title: "Electricians", href: "/electricians", icon: "/v2.png" },
-      { title: "HVAC Contractors", href: "/hvac-contractors", icon: "/v3.png" },
-      { title: "Landscapers", href: "/landscapers", icon: "/v4.png" },
-      { title: "Locksmiths", href: "/locksmiths", icon: "/v5.png" },
-      { title: "Pest Control", href: "/pest-control", icon: "/v6.png" },
-      { title: "Plumbers", href: "/plumbers", icon: "/v1.png" },
-      { title: "Roofers", href: "/roofers", icon: "/v2.png" },
+      { title: "Appliance Repair Pros", href: "/appliance-repair-pros", icon: "/s.jpeg" },
+      { title: "Electricians", href: "/electricians", icon: "/ss.jpeg" },
+      { title: "HVAC Contractors", href: "/hvac-contractors", icon: "/s3.jpeg" },
+      { title: "Landscapers", href: "/landscapers", icon: "/s4.jpeg" },
+      { title: "Locksmiths", href: "/locksmiths", icon: "/s5.jpeg" },
+      { title: "Pest Control", href: "/pest-control", icon: "/s6.jpeg" },
+      { title: "Plumbers", href: "/plumbers", icon: "/s7.jpeg" },
+      { title: "Roofers", href: "/roofers", icon: "/s8.jpeg" },
     ],
     Medical: [
-      { title: "Chiropractors", href: "/chiropractors", icon: "/v1.png" },
-      { title: "Dentists", href: "/dentists", icon: "/v2.png" },
-      { title: "Drug & Alcohol Addiction Treatment", href: "/drug-alcohol-addiction-treatment", icon: "/v3.png" },
+      { title: "Chiropractors", href: "/chiropractors", icon: "/cx1.jpeg" },
+      { title: "Dentists", href: "/dentists", icon: "/cx2.jpeg" },
+      { title: "Drug & Alcohol Addiction Treatment", href: "/drug-alcohol-addiction-treatment", icon: "/cx3.jpeg" },
     ]
   };
 
@@ -139,9 +138,14 @@ export default function Home() {
           <div className="relative max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between">
             
             <div className="lg:w-1/2 space-y-6 z-10 backdrop-blur-md bg-white/75 p-6 lg:p-8 rounded-2xl shadow-md border border-white/60">
-              <span className="bg-orange-50 text-orange-600 font-semibold px-4 py-1.5 rounded-full text-xs uppercase tracking-wider inline-block border border-orange-100 shadow-sm">
-                Trusted by Thousands
-              </span>
+              
+              {/* Ringba Tag with Image */}
+              <div className="bg-orange-50 text-orange-600 font-semibold px-4 py-2 rounded-full text-xs uppercase tracking-wider inline-flex items-center space-x-2 border border-orange-100 shadow-sm">
+                <span>Powered by</span>
+                <div className="relative w-16 h-4 inline-block">
+                  <Image src="/t.webp" alt="Ringba Logo" fill className="object-contain" />
+                </div>
+              </div>
               
               <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight">
                 Enterprise Pay Per <br />
@@ -149,37 +153,23 @@ export default function Home() {
               </h1>
 
               <p className="text-gray-700 text-sm lg:text-base leading-relaxed">
-                Scale & perform pay-per-call (PPC) Call Programs into Leads/Revenue, 24/7, on the phone, in your way!
+                Scale customer acquisition with <strong>Pay Per Call Program</strong>, intelligent routing, and real-time performance insights.
               </p>
 
               <div className="space-y-4 pt-2">
                 <div className="flex items-start space-x-3">
-                  <div className="relative w-8 h-8 flex-shrink-0 mt-0.5">
-                    <Image src="/icons/hero-phone.png" alt="Phone Icon" fill className="object-contain" />
-                  </div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-orange-500 flex-shrink-0 mt-2"></div>
                   <div>
-                    <h4 className="font-bold text-gray-900 text-sm">Pay Per Call:</h4>
-                    <p className="text-xs text-gray-700">Drive 100% inbound calls at a price you set. Start at $0.10 per call or pay more.</p>
+                    <h4 className="font-bold text-gray-900 text-sm">Pay Per Call</h4>
+                    <p className="text-xs text-gray-700">Inbound & outbound call campaigns with real-time routing & Quality scoring.</p>
                   </div>
                 </div>
 
                 <div className="flex items-start space-x-3">
-                  <div className="relative w-8 h-8 flex-shrink-0 mt-0.5">
-                    <Image src="/icons/hero-chart.png" alt="Chart Icon" fill className="object-contain" />
-                  </div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-orange-500 flex-shrink-0 mt-2"></div>
                   <div>
-                    <h4 className="font-bold text-gray-900 text-sm">Real-time Analytics and Reporting:</h4>
-                    <p className="text-xs text-gray-700">Gain full visibility into call performance. Make smarter decisions.</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-3">
-                  <div className="relative w-8 h-8 flex-shrink-0 mt-0.5">
-                    <Image src="/icons/hero-shield.png" alt="Shield Icon" fill className="object-contain" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 text-sm">Best-in-class Pay Per Call Network:</h4>
-                    <p className="text-xs text-gray-700">Don't just connect, convert. Partner with Affcall.</p>
+                    <h4 className="font-bold text-gray-900 text-sm">Cost-Per-Acquisition (CPA)</h4>
+                    <p className="text-xs text-gray-700">Data-Driven Campaigns Designed for Conversions & ROI.</p>
                   </div>
                 </div>
               </div>
@@ -199,40 +189,40 @@ export default function Home() {
         {/* 2. How Affcall Delivers Results */}
         <section className="bg-gray-50 py-12 border-y border-gray-100">
           <div className="max-w-7xl mx-auto px-6 text-center">
-            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">How affcall Delivers Results</h2>
-            <p className="text-gray-500 text-sm mb-10">Skyrocket call performance with Affcall.</p>
+            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">How <span className="text-orange-500">affcall</span> Delivers Results</h2>
+            <p className="text-gray-500 text-sm mb-10">A simple process built for performance and scale.</p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center transform transition-all duration-300 hover:-translate-y-2 hover:bg-orange-50/50 hover:border-orange-200 hover:shadow-xl cursor-pointer">
                 <div className="relative w-16 h-16 mb-4 flex items-center justify-center">
-                  <Image src="/i1.png" alt="Revenue Icon" fill className="object-contain" />
+                  <Image src="/i1.png" alt="Create Campaign Icon" fill className="object-contain" />
                 </div>
-                <h4 className="font-bold text-gray-800 text-sm mb-1">Drive More Revenue</h4>
-                <p className="text-xs text-gray-500">Generate high-quality, paid calls that convert.</p>
+                <h4 className="font-bold text-gray-800 text-sm mb-1">Create Campaign</h4>
+                <p className="text-xs text-gray-500">Set your targeting, call rules, routing, and budget</p>
               </div>
 
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center transform transition-all duration-300 hover:-translate-y-2 hover:bg-orange-50/50 hover:border-orange-200 hover:shadow-xl cursor-pointer">
                 <div className="relative w-16 h-16 mb-4 flex items-center justify-center">
-                  <Image src="/hu.png" alt="Calls Icon" fill className="object-contain" />
+                  <Image src="/hu.png" alt="We Connect Calls Icon" fill className="object-contain" />
                 </div>
-                <h4 className="font-bold text-gray-800 text-sm mb-1">On-Demand Calls</h4>
-                <p className="text-xs text-gray-500">Get connected calls when you need them—real time, 24/7.</p>
+                <h4 className="font-bold text-gray-800 text-sm mb-1">We Connect Calls</h4>
+                <p className="text-xs text-gray-500">Our network connects you with high-intent callers in real-time.</p>
               </div>
 
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center transform transition-all duration-300 hover:-translate-y-2 hover:bg-orange-50/50 hover:border-orange-200 hover:shadow-xl cursor-pointer">
                 <div className="relative w-16 h-16 mb-4 flex items-center justify-center">
-                  <Image src="/hu2.png" alt="Network Icon" fill className="object-contain" />
+                  <Image src="/hu2.png" alt="Calls Tracked in Ringba Icon" fill className="object-contain" />
                 </div>
-                <h4 className="font-bold text-gray-800 text-sm mb-1">Scale Your Network</h4>
-                <p className="text-xs text-gray-500">Rely on a network designed for reliability and performance.</p>
+                <h4 className="font-bold text-gray-800 text-sm mb-1">Calls Are Tracked in Ringba</h4>
+                <p className="text-xs text-gray-500">Every call is tracked, recorded, and verified on the Ringba platform.</p>
               </div>
 
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center transform transition-all duration-300 hover:-translate-y-2 hover:bg-orange-50/50 hover:border-orange-200 hover:shadow-xl cursor-pointer">
                 <div className="relative w-16 h-16 mb-4 flex items-center justify-center">
-                  <Image src="/hu3.png" alt="Analyze Icon" fill className="object-contain" />
+                  <Image src="/hu3.png" alt="Analyze & Optimize Icon" fill className="object-contain" />
                 </div>
                 <h4 className="font-bold text-gray-800 text-sm mb-1">Analyze & Optimize</h4>
-                <p className="text-xs text-gray-500">Use real-time analytics to refine your ROI-driven strategy.</p>
+                <p className="text-xs text-gray-500">Use real-time reports and insights to optimize performance.</p>
               </div>
             </div>
           </div>
@@ -346,11 +336,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 5. OUR Verticals (Tabbed Navigation with Clickable Links) */}
+        {/* 5. OUR Verticals */}
         <section className="max-w-7xl mx-auto px-6 py-16 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">OUR Verticals</h2>
           
-          {/* Top Tabs */}
           <div className="flex justify-center space-x-6 sm:space-x-10 mb-12 border-b border-gray-200 pb-4 max-w-lg mx-auto">
             {(['Insurance', 'Home Services', 'Medical'] as const).map((tab) => (
               <button
@@ -365,7 +354,6 @@ export default function Home() {
             ))}
           </div>
           
-          {/* Dynamic Grid based on active tab */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
             {verticalsData[activeTab].map((vertical, index) => (
               <Link 

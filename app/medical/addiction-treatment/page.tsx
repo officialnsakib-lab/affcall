@@ -93,13 +93,22 @@ export default function AddictionTreatmentPage() {
           </div>
         </section>
 
-        {/* ==================== 2. EVERY CALL COULD BE SOMEONE’S SECOND CHANCE AT LIFE! ==================== */}
+        {/* ==================== 2. EVERY CALL COULD BE SOMEONE’S SECOND CHANCE AT LIFE! (Updated with Animation Video) ==================== */}
         <section className="bg-gray-50/50 py-20 border-y border-gray-100">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
-            {/* Image Placeholder */}
-            <div className="relative w-full h-[350px] lg:h-[420px] bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300">
-              <span className="text-gray-500 font-medium text-sm">[ এখানে ফানেল ইলস্ট্রেশন বা জিফ বসান ]</span>
+            {/* Custom Animation Video Box */}
+            <div className="relative w-full h-[350px] lg:h-[420px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300 bg-black shadow-sm">
+              <video 
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+                className="w-full h-full object-cover"
+              >
+                <source src="/say.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
 
             {/* Content */}
@@ -155,9 +164,9 @@ export default function AddictionTreatmentPage() {
               </div>
             </div>
 
-            {/* Image Placeholder */}
-            <div className="relative w-full h-[350px] lg:h-[400px] bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300">
-              <span className="text-gray-500 font-medium text-sm">[ ড্যাশবোর্ড বা টিমওয়ার্ক ইলস্ট্রেশন বসান ]</span>
+            {/* Image sv1.jpeg */}
+            <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300">
+              <img src="/sv1.jpeg" alt="Dashboard Teamwork Illustration" className="w-full h-full object-cover" />
             </div>
 
           </div>
@@ -167,9 +176,9 @@ export default function AddictionTreatmentPage() {
         <section className="bg-gray-50/50 py-20 border-y border-gray-100">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
-            {/* Image Placeholder */}
-            <div className="relative w-full h-[350px] lg:h-[400px] bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300 order-2 lg:order-1">
-              <span className="text-gray-500 font-medium text-sm">[ মোবাইল লিড জেনারেশন ইলস্ট্রেশন বসান ]</span>
+            {/* Image sv2.jpeg */}
+            <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300 order-2 lg:order-1">
+              <img src="/sv2.jpeg" alt="Mobile Lead Generation Illustration" className="w-full h-full object-cover" />
             </div>
 
             <div className="space-y-6 order-1 lg:order-2">
@@ -215,9 +224,9 @@ export default function AddictionTreatmentPage() {
               </p>
             </div>
 
-            {/* Analytics Image Placeholder */}
+            {/* Image sv3.jpeg */}
             <div className="relative w-full h-[350px] lg:h-[400px] bg-white rounded-2xl overflow-hidden flex items-center justify-center border border-blue-200 shadow-sm">
-              <span className="text-blue-500 font-medium text-sm">[ অ্যানালিটিক্স এবং গ্রাফ ইলস্ট্রেশন বসান ]</span>
+              <img src="/sv3.jpeg" alt="Analytics and Graph Illustration" className="w-full h-full object-cover" />
             </div>
 
           </div>

@@ -167,7 +167,7 @@ export default function HVACLeadsPage() {
             {/* Image / Illustration Section */}
             <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden shadow-md">
               <img 
-                src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1000&auto=format&fit=crop" 
+                src="/sv1.jpeg" 
                 alt="HVAC technician working" 
                 className="w-full h-full object-cover"
               />
@@ -183,7 +183,7 @@ export default function HVACLeadsPage() {
             {/* Image / Illustration Section */}
             <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden shadow-md order-2 lg:order-1">
               <img 
-                src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000&auto=format&fit=crop" 
+                src="/sv2.jpeg" 
                 alt="Mobile Lead Generation" 
                 className="w-full h-full object-cover"
               />
@@ -235,7 +235,7 @@ export default function HVACLeadsPage() {
             {/* Analytics Image Section */}
             <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden shadow-md bg-white border border-blue-200">
               <img 
-                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop" 
+                src="/sv3.jpeg" 
                 alt="Analytics and Graph" 
                 className="w-full h-full object-cover"
               />
