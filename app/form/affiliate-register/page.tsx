@@ -23,9 +23,9 @@ export default function AffiliatePage() {
     messengerLink: '',
     referredBy: '',
     howDidYouHear: '',
-    campaignsWorking: '',
+    workingCampaigns: '',
     primaryTrafficSource: '',
-    campaignLookingFor: '',
+    desiredVertical: '',
     agreeToTerms: false,
   });
 
@@ -45,18 +45,28 @@ export default function AffiliatePage() {
     setErrorMsg('');
 
     try {
-      const res = await fetch('/api/affiliates', {
+      const response = await fetch('/api/affiliates', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          formType: 'Affiliate',
+          type: 'Affiliate',
+          name: formData.companyName, // ড্যাশবোর্ডে নাম দেখানোর জন্য
+        }),
       });
 
-      if (res.ok) {
-        setSubmitted(true); // সফল হলে থ্যাংক ইউ ভিউতে চলে যাবে
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setSubmitted(true);
       } else {
-        setErrorMsg('Something went wrong. Please try again.');
+        setErrorMsg(result.message || result.error || 'Something went wrong. Please try again.');
       }
     } catch (error) {
+      console.error('Error submitting affiliate form:', error);
       setErrorMsg('Server connection error.');
     } finally {
       setLoading(false);
@@ -125,8 +135,8 @@ export default function AffiliatePage() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-600 mb-1">Address 2</label>
-            <input type="text" name="address2" value={formData.address2} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+            <label className="block text-xs font-semibold text-gray-600 mb-1">Address 2 *</label>
+            <input type="text" name="address2" value={formData.address2} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
           </div>
 
           <div className="grid grid-cols-3 gap-2">
@@ -135,8 +145,8 @@ export default function AffiliatePage() {
               <input type="text" name="city" value={formData.city} onChange={handleChange} required className="w-full px-3 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1">Region</label>
-              <input type="text" name="region" value={formData.region} onChange={handleChange} className="w-full px-3 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+              <label className="block text-xs font-semibold text-gray-600 mb-1">Region *</label>
+              <input type="text" name="region" value={formData.region} onChange={handleChange} required className="w-full px-3 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-600 mb-1">Postal Code *</label>
@@ -146,52 +156,52 @@ export default function AffiliatePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
             <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1">Instant messenger</label>
-              <select name="messengerType" value={formData.messengerType} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm bg-white focus:outline-none focus:border-orange-500 text-black">
+              <label className="block text-xs font-semibold text-gray-600 mb-1">Instant messenger *</label>
+              <select name="messengerType" value={formData.messengerType} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm bg-white focus:outline-none focus:border-orange-500 text-black">
                 <option value="Microsoft Teams">Microsoft Teams</option>
                 <option value="Skype">Skype</option>
                 <option value="Telegram">Telegram</option>
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1">Link (Optional)</label>
-              <input type="text" name="messengerLink" value={formData.messengerLink} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+              <label className="block text-xs font-semibold text-gray-600 mb-1">Link *</label>
+              <input type="text" name="messengerLink" value={formData.messengerLink} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-600 mb-1">Did someone refer you to us? If so, who was it?</label>
-            <input type="text" name="referredBy" value={formData.referredBy} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+            <label className="block text-xs font-semibold text-gray-600 mb-1">Did someone refer you to us? If so, who was it? *</label>
+            <input type="text" name="referredBy" value={formData.referredBy} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-600 mb-1">How did you hear about us?</label>
-            <input type="text" name="howDidYouHear" value={formData.howDidYouHear} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+            <label className="block text-xs font-semibold text-gray-600 mb-1">How did you hear about us? *</label>
+            <input type="text" name="howDidYouHear" value={formData.howDidYouHear} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-600 mb-1">Which campaigns are you working?</label>
-            <input type="text" name="campaignsWorking" value={formData.campaignsWorking} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+            <label className="block text-xs font-semibold text-gray-600 mb-1">Which campaigns are you working? *</label>
+            <input type="text" name="workingCampaigns" value={formData.workingCampaigns} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-600 mb-1">What primary traffic source do you work with?</label>
-            <input type="text" name="primaryTrafficSource" value={formData.primaryTrafficSource} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+            <label className="block text-xs font-semibold text-gray-600 mb-1">What primary traffic source do you work with? *</label>
+            <input type="text" name="primaryTrafficSource" value={formData.primaryTrafficSource} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-600 mb-1">What campaign/vertical are you looking for?</label>
-            <input type="text" name="campaignLookingFor" value={formData.campaignLookingFor} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+            <label className="block text-xs font-semibold text-gray-600 mb-1">What campaign/vertical are you looking for? *</label>
+            <input type="text" name="desiredVertical" value={formData.desiredVertical} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
           </div>
 
           <div className="flex items-start space-x-2 pt-2">
             <input type="checkbox" name="agreeToTerms" id="affTerms" checked={formData.agreeToTerms} onChange={handleChange} className="mt-1 h-4 w-4 text-orange-500 border-gray-300 rounded" required />
             <label htmlFor="affTerms" className="text-xs text-gray-600">
-              I agree to the <span className="text-orange-500 underline cursor-pointer">Terms and Conditions</span>
+              I agree to the <span className="text-orange-500 underline cursor-pointer">Terms and Conditions</span> *
             </label>
           </div>
 
-          <button type="submit" disabled={loading} className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-full transition cursor-pointer text-sm shadow-md mt-4">
+          <button type="submit" disabled={loading} className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-full transition cursor-pointer text-sm shadow-md mt-4 disabled:opacity-50">
             {loading ? 'Submitting...' : 'Submit Application'}
           </button>
         </form>

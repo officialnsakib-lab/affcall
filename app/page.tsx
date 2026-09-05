@@ -132,7 +132,7 @@ export default function Home() {
       <main>
         
         {/* 1. Hero Section */}
-        <section className="relative bg-cover bg-center bg-no-repeat py-12 lg:py-20" style={{ backgroundImage: `url('Sakib.jpeg')` }}>
+        <section className="relative bg-cover bg-center bg-no-repeat py-12 lg:py-20" style={{ backgroundImage: `url('Sakib.png')` }}>
           <div className="absolute inset-0 bg-white/40 lg:bg-white/30"></div>
 
           <div className="relative max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between">
@@ -228,7 +228,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 3. Cards Grid Section */}
+        {/* 3. Cards Grid Section (Learn more removed) */}
         <section className="max-w-7xl mx-auto px-6 py-20">
           <h2 className="text-center text-2xl lg:text-3xl font-extrabold text-gray-900 mb-16">
             Call High-Intent Callers, Real-Time Call Tracking, 24/7 Call Flows.
@@ -245,12 +245,6 @@ export default function Home() {
                   Stop wasting budget on unqualified traffic. Only pay for calls that are qualified and valuable.
                 </p>
               </div>
-              <div className="mt-8 pt-4 border-t border-gray-50 text-center">
-                <Link href="#" className="text-orange-500 font-bold text-xs inline-flex items-center space-x-1 hover:underline">
-                  <span>Learn more</span>
-                  <span>→</span>
-                </Link>
-              </div>
             </div>
 
             <div className="bg-white rounded-3xl p-8 shadow-xl border border-orange-100 flex flex-col justify-between hover:shadow-2xl transition-all duration-300 relative group">
@@ -263,12 +257,6 @@ export default function Home() {
                   Your dedicated account managers are always here to assist you and drive your campaigns forward.
                 </p>
               </div>
-              <div className="mt-8 pt-4 border-t border-gray-50 text-center">
-                <Link href="#" className="text-orange-500 font-bold text-xs inline-flex items-center space-x-1 hover:underline">
-                  <span>Learn more</span>
-                  <span>→</span>
-                </Link>
-              </div>
             </div>
 
             <div className="bg-white rounded-3xl p-8 shadow-xl border border-orange-100 flex flex-col justify-between hover:shadow-2xl transition-all duration-300 relative group">
@@ -280,12 +268,6 @@ export default function Home() {
                 <p className="text-xs sm:text-sm text-gray-600 leading-relaxed text-center">
                   Get real-time insights with advanced call tracking and analytics to make smart, data-driven decisions.
                 </p>
-              </div>
-              <div className="mt-8 pt-4 border-t border-gray-50 text-center">
-                <Link href="#" className="text-orange-500 font-bold text-xs inline-flex items-center space-x-1 hover:underline">
-                  <span>Learn more</span>
-                  <span>→</span>
-                </Link>
               </div>
             </div>
           </div>
@@ -454,7 +436,7 @@ export default function Home() {
                 </p>
               </div>
               <div>
-                <Link href="https://www.affcall.com/from/affiliate" className="inline-flex items-center space-x-2 border-2 border-orange-500 text-orange-500 font-bold px-6 py-3 rounded-full hover:bg-orange-500 hover:text-white transition-all text-sm">
+                <Link href="https://www.affcall.com/form/affiliate-register" className="inline-flex items-center space-x-2 border-2 border-orange-500 text-orange-500 font-bold px-6 py-3 rounded-full hover:bg-orange-500 hover:text-white transition-all text-sm">
                   <span>GET OFFERS</span>
                   <span>→</span>
                 </Link>
@@ -469,7 +451,7 @@ export default function Home() {
                 </p>
               </div>
               <div>
-                <Link href="https://www.affcall.com/from/marketer" className="inline-flex items-center space-x-2 border-2 border-orange-500 text-orange-500 font-bold px-6 py-3 rounded-full hover:bg-orange-500 hover:text-white transition-all text-sm">
+                <Link href="https://www.affcall.com/form/advertiser-register" className="inline-flex items-center space-x-2 border-2 border-orange-500 text-orange-500 font-bold px-6 py-3 rounded-full hover:bg-orange-500 hover:text-white transition-all text-sm">
                   <span>GET QUALIFIED CALLS</span>
                   <span>→</span>
                 </Link>
@@ -485,7 +467,7 @@ export default function Home() {
               </p>
             </div>
             <div>
-              <Link href="#" className="bg-white text-orange-600 font-bold px-8 py-3.5 rounded-full shadow-md hover:bg-gray-100 transition-all inline-flex items-center space-x-2 text-sm">
+              <Link href="https://www.affcall.com/form/advertiser-register" className="bg-white text-orange-600 font-bold px-8 py-3.5 rounded-full shadow-md hover:bg-gray-100 transition-all inline-flex items-center space-x-2 text-sm">
                 <span>LAUNCH CAMPAIGN</span>
                 <span>→</span>
               </Link>

@@ -48,10 +48,9 @@ export default function MarketerPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: `${formData.firstName} ${formData.lastName} (${formData.companyName})`,
-          email: formData.email,
-          phone: formData.phone,
-          message: `Industry: ${formData.industry}, Address: ${formData.address}, Calls/Day: ${formData.callsPerDay}, Vertical: ${formData.verticalToStart}`,
+          ...formData, // পুরো ফর্ম ডেটা সরাসরি পাঠানো হলো
+          formType: 'Advertiser',
+          name: `${formData.firstName} ${formData.lastName}`,
         }),
       });
 
@@ -139,44 +138,44 @@ export default function MarketerPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1">Instant messenger</label>
-              <select name="messengerType" value={formData.messengerType} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm bg-white focus:outline-none focus:border-orange-500 text-black">
+              <label className="block text-xs font-semibold text-gray-600 mb-1">Instant messenger *</label>
+              <select name="messengerType" value={formData.messengerType} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm bg-white focus:outline-none focus:border-orange-500 text-black">
                 <option value="Microsoft Teams">Microsoft Teams</option>
                 <option value="Skype">Skype</option>
                 <option value="Telegram">Telegram</option>
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1">Link (Optional)</label>
-              <input type="text" name="messengerLink" value={formData.messengerLink} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+              <label className="block text-xs font-semibold text-gray-600 mb-1">Link *</label>
+              <input type="text" name="messengerLink" value={formData.messengerLink} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-600 mb-1">How did you hear about us?</label>
-            <input type="text" name="howDidYouHear" value={formData.howDidYouHear} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+            <label className="block text-xs font-semibold text-gray-600 mb-1">How did you hear about us? *</label>
+            <input type="text" name="howDidYouHear" value={formData.howDidYouHear} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-600 mb-1">What vertical/campaign would you like to start?</label>
-            <input type="text" name="verticalToStart" value={formData.verticalToStart} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+            <label className="block text-xs font-semibold text-gray-600 mb-1">What vertical/campaign would you like to start? *</label>
+            <input type="text" name="verticalToStart" value={formData.verticalToStart} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1">How many calls do you need PER day?</label>
-              <input type="text" name="callsPerDay" value={formData.callsPerDay} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+              <label className="block text-xs font-semibold text-gray-600 mb-1">How many calls do you need PER day? *</label>
+              <input type="text" name="callsPerDay" value={formData.callsPerDay} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1">How soon would you like to start?</label>
-              <input type="text" name="howSoonToStart" value={formData.howSoonToStart} onChange={handleChange} className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
+              <label className="block text-xs font-semibold text-gray-600 mb-1">How soon would you like to start? *</label>
+              <input type="text" name="howSoonToStart" value={formData.howSoonToStart} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
             </div>
           </div>
 
           <div className="flex items-start space-x-2 pt-2">
             <input type="checkbox" name="agreeToTerms" id="advTerms" checked={formData.agreeToTerms} onChange={handleChange} className="mt-1 h-4 w-4 text-orange-500 border-gray-300 rounded" required />
             <label htmlFor="advTerms" className="text-xs text-gray-600">
-              I understand and agree to be contacted by a representative from AFFCALL.
+              I understand and agree to be contacted by a representative from AFFCALL. *
             </label>
           </div>
 
