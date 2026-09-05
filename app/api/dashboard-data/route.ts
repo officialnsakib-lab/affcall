@@ -40,7 +40,7 @@ export async function GET() {
       ...formattedAffiliates, 
       ...formattedLeads, 
       ...formattedContacts
-    ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(new Date(a.createdAt).getTime()));
+    ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     return NextResponse.json({ success: true, submissions: allSubmissions }, { status: 200 });
   } catch (error) {
