@@ -52,27 +52,27 @@ export default function Home() {
 
   const verticalsData = {
     Insurance: [
-      { title: "Auto Insurance", href: "/auto-insurance", icon: "/v1.png" },
-      { title: "Health Insurance", href: "/health-insurance", icon: "/v2.png" },
-      { title: "Homeowners Insurance", href: "/homeowners-insurance", icon: "/v3.png" },
-      { title: "ACA Insurance", href: "/aca-insurance", icon: "/v4.png" },
-      { title: "Medicare Insurance", href: "/medicare-insurance", icon: "/v5.png" },
-      { title: "Final Expense Insurance", href: "/final-expense-insurance", icon: "/v6.png" },
+      { title: "Auto Insurance", href: "/insurance/auto", icon: "/v1.png" },
+      { title: "Health Insurance", href: "/insurance/health", icon: "/v2.png" },
+      { title: "Homeowners Insurance", href: "/insurance/homeowners", icon: "/v3.png" },
+      { title: "ACA Insurance", href: "/insurance/aca", icon: "/v4.png" },
+      { title: "Medicare Insurance", href: "/insurance/medicare", icon: "/v5.png" },
+      { title: "Final Expense Insurance", href: "insurance/final-expense", icon: "/v6.png" },
     ],
     "Home Services": [
-      { title: "Appliance Repair Pros", href: "/appliance-repair-pros", icon: "/s.jpeg" },
-      { title: "Electricians", href: "/electricians", icon: "/ss.jpeg" },
-      { title: "HVAC Contractors", href: "/hvac-contractors", icon: "/s3.jpeg" },
-      { title: "Landscapers", href: "/landscapers", icon: "/s4.jpeg" },
-      { title: "Locksmiths", href: "/locksmiths", icon: "/s5.jpeg" },
-      { title: "Pest Control", href: "/pest-control", icon: "/s6.jpeg" },
-      { title: "Plumbers", href: "/plumbers", icon: "/s7.jpeg" },
-      { title: "Roofers", href: "/roofers", icon: "/s8.jpeg" },
+      { title: "Appliance Repair Pros", href: "/home-services/appliance-repair", icon: "/s.jpeg" },
+      { title: "Electricians", href: "/home-services/electricians", icon: "/ss.jpeg" },
+      { title: "HVAC Contractors", href: "/home-services/hvac", icon: "/s3.jpeg" },
+      { title: "Landscapers", href: "/home-services/landscapers", icon: "/s4.jpeg" },
+      { title: "Locksmiths", href: "/home-services/locksmiths", icon: "/s5.jpeg" },
+      { title: "Pest Control", href: "/home-services/pest-control", icon: "/s6.jpeg" },
+      { title: "Plumbers", href: "/home-services/plumbers", icon: "/s7.jpeg" },
+      { title: "Roofers", href: "/home-services/roofers", icon: "/s8.jpeg" },
     ],
     Medical: [
-      { title: "Chiropractors", href: "/chiropractors", icon: "/cx1.jpeg" },
-      { title: "Dentists", href: "/dentists", icon: "/cx2.jpeg" },
-      { title: "Drug & Alcohol Addiction Treatment", href: "/drug-alcohol-addiction-treatment", icon: "/cx3.jpeg" },
+      { title: "Chiropractors", href: "/medical/chiropractors", icon: "/cx1.jpeg" },
+      { title: "Dentists", href: "/medical/dentists", icon: "/cx2.jpeg" },
+      { title: "Drug & Alcohol Addiction Treatment", href: "/medical/addiction-treatment", icon: "/cx3.jpeg" },
     ]
   };
 
@@ -454,7 +454,7 @@ export default function Home() {
                 </p>
               </div>
               <div>
-                <Link href="#" className="inline-flex items-center space-x-2 border-2 border-orange-500 text-orange-500 font-bold px-6 py-3 rounded-full hover:bg-orange-500 hover:text-white transition-all text-sm">
+                <Link href="https://www.affcall.com/from/affiliate" className="inline-flex items-center space-x-2 border-2 border-orange-500 text-orange-500 font-bold px-6 py-3 rounded-full hover:bg-orange-500 hover:text-white transition-all text-sm">
                   <span>GET OFFERS</span>
                   <span>→</span>
                 </Link>
@@ -469,7 +469,7 @@ export default function Home() {
                 </p>
               </div>
               <div>
-                <Link href="#" className="inline-flex items-center space-x-2 border-2 border-orange-500 text-orange-500 font-bold px-6 py-3 rounded-full hover:bg-orange-500 hover:text-white transition-all text-sm">
+                <Link href="https://www.affcall.com/from/marketer" className="inline-flex items-center space-x-2 border-2 border-orange-500 text-orange-500 font-bold px-6 py-3 rounded-full hover:bg-orange-500 hover:text-white transition-all text-sm">
                   <span>GET QUALIFIED CALLS</span>
                   <span>→</span>
                 </Link>
