@@ -13,7 +13,6 @@ export default function AffiliatePage() {
     companyName: '',
     email: '',
     phone: '',
-    country: '',
     address1: '',
     address2: '',
     city: '',
@@ -54,7 +53,7 @@ export default function AffiliatePage() {
           ...formData,
           formType: 'Affiliate',
           type: 'Affiliate',
-          name: formData.companyName, // ড্যাশবোর্ডে নাম দেখানোর জন্য
+          name: formData.companyName,
         }),
       });
 
@@ -113,20 +112,9 @@ export default function AffiliatePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1">Phone *</label>
-              <input type="text" name="phone" value={formData.phone} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1">Country *</label>
-              <select name="country" value={formData.country} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm bg-white focus:outline-none focus:border-orange-500 text-black">
-                <option value="">Select Country</option>
-                <option value="Bangladesh">Bangladesh</option>
-                <option value="United States">United States</option>
-                <option value="United Kingdom">United Kingdom</option>
-              </select>
-            </div>
+          <div>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">Phone *</label>
+            <input type="text" name="phone" value={formData.phone} onChange={handleChange} required className="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-orange-500 text-black" />
           </div>
 
           <div>
