@@ -7,9 +7,22 @@ import { Users, Mail, Phone, Calendar, Database, AlertCircle, Trash2, RefreshCw,
 export default function DashboardPage() {
   const router = useRouter();
   const [allSubmissions, setAllSubmissions] = useState<any[]>([]);
+  const [readIds, setReadIds] = useState<string[]>([]);
   const [hasError, setHasError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [selectedSubmission, setSelectedSubmission] = useState<any | null>(null); // ফুল ডিটেইলস পপআপের জন্য
+  const [selectedSubmission, setSelectedSubmission] = useState<any | null>(null);
+
+  // লোকালস্টোরেজ থেকে পঠিত সাবমিশনগুলোর আইডি লোড করা
+  useEffect(() => {
+    const savedReadIds = localStorage.getItem('affcall_read_submissions');
+    if (savedReadIds) {
+      try {
+        setReadIds(JSON.parse(savedReadIds));
+      } catch (e) {
+        console.error("Error parsing read ids", e);
+      }
+    }
+  }, []);
 
   // ডাটা লোড করার ফাংশন
   const fetchSubmissions = async () => {
@@ -34,6 +47,16 @@ export default function DashboardPage() {
   useEffect(() => {
     fetchSubmissions();
   }, []);
+
+  // কোনো সাবমিশনের ডিটেইলস দেখলে তাকে 'Read' হিসেবে মার্ক করার ফাংশন
+  const handleViewDetails = (item: any) => {
+    setSelectedSubmission(item);
+    if (!readIds.includes(item._id)) {
+      const updatedReadIds = [...readIds, item._id];
+      setReadIds(updatedReadIds);
+      localStorage.setItem('affcall_read_submissions', JSON.stringify(updatedReadIds));
+    }
+  };
 
   // ডাটা ডিলিট করার ফাংশন
   const handleDelete = async (id: string, type: string) => {
@@ -116,66 +139,76 @@ export default function DashboardPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800 text-sm">
-                {allSubmissions.map((item: any) => (
-                  <tr key={item._id} className="hover:bg-[#1a2234] transition">
-                    <td className="p-4 font-medium text-white flex items-center space-x-2">
-                      <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center font-bold flex-shrink-0">
-                        {item.name ? item.name.charAt(0).toUpperCase() : (item.firstName ? item.firstName.charAt(0).toUpperCase() : 'U')}
-                      </div>
-                      <span className="truncate max-w-[180px]">
-                        {item.name || (item.firstName ? `${item.firstName} ${item.lastName || ''}` : 'N/A')}
-                      </span>
-                    </td>
-                    <td className="p-4">
-                      <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border whitespace-nowrap ${
-                        item.type === 'Advertiser' 
-                          ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' 
-                          : 'bg-orange-500/10 text-orange-400 border-orange-500/20'
-                      }`}>
-                        {item.type}
-                      </span>
-                    </td>
-                    <td className="p-4 text-gray-300">
-                      <div className="flex items-center space-x-1.5">
-                        <Mail className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                        <span className="truncate max-w-[180px]">{item.email || 'N/A'}</span>
-                      </div>
-                    </td>
-                    <td className="p-4 text-gray-300">
-                      <div className="flex items-center space-x-1.5">
-                        <Phone className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                        <span>{item.phone || 'N/A'}</span>
-                      </div>
-                    </td>
-                    <td className="p-4 text-gray-400 max-w-xs truncate" title={item.message || item.companyName}>
-                      {item.message || item.companyName || item.industry || 'No additional details'}
-                    </td>
-                    <td className="p-4 text-gray-400 whitespace-nowrap">
-                      <div className="flex items-center space-x-1.5 text-xs">
-                        <Calendar className="w-3.5 h-3.5 text-gray-500 flex-shrink-0" />
-                        <span>{item.createdAt ? new Date(item.createdAt).toLocaleString() : 'N/A'}</span>
-                      </div>
-                    </td>
-                    <td className="p-4 text-center space-x-2 whitespace-nowrap">
-                      <button
-                        onClick={() => setSelectedSubmission(item)}
-                        className="bg-blue-500/10 hover:bg-blue-600 text-blue-400 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center space-x-1 cursor-pointer"
-                        title="View All Fields"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                        <span>Details</span>
-                      </button>
-                      <button
-                        onClick={() => handleDelete(item._id, item.type)}
-                        className="bg-red-500/10 hover:bg-red-600 text-red-400 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center space-x-1 cursor-pointer"
-                        title="Delete Submission"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        <span>Delete</span>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {allSubmissions.map((item: any) => {
+                  const isUnread = !readIds.includes(item._id);
+                  return (
+                    <tr key={item._id} className="hover:bg-[#1a2234] transition">
+                      <td className="p-4 font-medium text-white flex items-center space-x-2">
+                        <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center font-bold flex-shrink-0 relative">
+                          {item.name ? item.name.charAt(0).toUpperCase() : (item.firstName ? item.firstName.charAt(0).toUpperCase() : 'U')}
+                        </div>
+                        <div className="flex items-center space-x-2 truncate">
+                          <span className="truncate max-w-[140px]">
+                            {item.name || (item.firstName ? `${item.firstName} ${item.lastName || ''}` : 'N/A')}
+                          </span>
+                          {isUnread && (
+                            <span className="bg-red-500 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full animate-pulse uppercase tracking-wider">
+                              New
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border whitespace-nowrap ${
+                          item.type === 'Advertiser' 
+                            ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' 
+                            : 'bg-orange-500/10 text-orange-400 border-orange-500/20'
+                        }`}>
+                          {item.type}
+                        </span>
+                      </td>
+                      <td className="p-4 text-gray-300">
+                        <div className="flex items-center space-x-1.5">
+                          <Mail className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                          <span className="truncate max-w-[180px]">{item.email || 'N/A'}</span>
+                        </div>
+                      </td>
+                      <td className="p-4 text-gray-300">
+                        <div className="flex items-center space-x-1.5">
+                          <Phone className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                          <span>{item.phone || 'N/A'}</span>
+                        </div>
+                      </td>
+                      <td className="p-4 text-gray-400 max-w-xs truncate" title={item.message || item.companyName}>
+                        {item.message || item.companyName || item.industry || 'No additional details'}
+                      </td>
+                      <td className="p-4 text-gray-400 whitespace-nowrap">
+                        <div className="flex items-center space-x-1.5 text-xs">
+                          <Calendar className="w-3.5 h-3.5 text-gray-500 flex-shrink-0" />
+                          <span>{item.createdAt ? new Date(item.createdAt).toLocaleString() : 'N/A'}</span>
+                        </div>
+                      </td>
+                      <td className="p-4 text-center space-x-2 whitespace-nowrap">
+                        <button
+                          onClick={() => handleViewDetails(item)}
+                          className="bg-blue-500/10 hover:bg-blue-600 text-blue-400 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center space-x-1 cursor-pointer"
+                          title="View All Fields"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                          <span>Details</span>
+                        </button>
+                        <button
+                          onClick={() => handleDelete(item._id, item.type)}
+                          className="bg-red-500/10 hover:bg-red-600 text-red-400 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center space-x-1 cursor-pointer"
+                          title="Delete Submission"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Delete</span>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
                 
                 {allSubmissions.length === 0 && !hasError && !loading && (
                   <tr>
@@ -193,7 +226,7 @@ export default function DashboardPage() {
 
       </div>
 
-      {/* ফুল ডিটেইলস পপআপ মডাল (সব ডাটা দেখতে পাওয়ার জন্য) */}
+      {/* ফুল ডিটেইলস পপআপ মডাল */}
       {selectedSubmission && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-[#111827] border border-gray-800 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden my-8">
