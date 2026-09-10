@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Affcall - Enterprise Pay Per Call Infrastructure",
   description: "Scale & perform pay-per-call programs into leads/revenue",
+  icons: {
+    icon: "/vercel.svg", // আপনার public ফোল্ডারে থাকা লোগো বা ফ্যাভিকন ফাইলের পাথ এখানে দিন
+  },
 };
 
 export default function RootLayout({
