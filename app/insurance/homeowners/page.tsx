@@ -7,14 +7,50 @@ import { useRouter } from 'next/navigation';
 export default function HomeownersInsurancePage() {
   const router = useRouter();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const [formData, setFormData] = useState({
+    companyName: '',
+    fullName: '',
+    email: '',
+    phone: '',
+  });
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/thank-you'); 
+    setLoading(true);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch('/api/submit-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit the form. Please try again.');
+      }
+
+      router.push('/thank-you');
+    } catch (error: any) {
+      setErrorMessage(error.message || 'Something went wrong.');
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,9 +83,17 @@ export default function HomeownersInsurancePage() {
             {/* Right Form Box */}
             <div className="lg:col-span-5 bg-orange-500 p-6 sm:p-8 rounded-2xl shadow-lg text-white">
               <form onSubmit={handleFormSubmit} className="space-y-4">
+                {errorMessage && (
+                  <div className="bg-red-600 text-white p-3 rounded-lg text-sm">
+                    {errorMessage}
+                  </div>
+                )}
                 <div>
                   <input 
                     type="text" 
+                    name="companyName"
+                    value={formData.companyName}
+                    onChange={handleChange}
                     placeholder="Company Name" 
                     required
                     className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
@@ -58,6 +102,9 @@ export default function HomeownersInsurancePage() {
                 <div>
                   <input 
                     type="text" 
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
                     placeholder="Full Name" 
                     required
                     className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
@@ -66,6 +113,9 @@ export default function HomeownersInsurancePage() {
                 <div>
                   <input 
                     type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="Email" 
                     required
                     className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
@@ -74,6 +124,9 @@ export default function HomeownersInsurancePage() {
                 <div>
                   <input 
                     type="text" 
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     placeholder="Phone Number" 
                     required
                     className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
@@ -82,9 +135,10 @@ export default function HomeownersInsurancePage() {
                 <div>
                   <button 
                     type="submit" 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition cursor-pointer text-sm shadow-md"
+                    disabled={loading}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition cursor-pointer text-sm shadow-md disabled:opacity-50"
                   >
-                    Submit
+                    {loading ? 'Submitting...' : 'Submit'}
                   </button>
                 </div>
               </form>

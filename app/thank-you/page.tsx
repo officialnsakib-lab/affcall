@@ -1,12 +1,30 @@
+'use client';
+
+import React from 'react';
+import Link from 'next/link';
+
 export default function ThankYouPage() {
   return (
-    <div className="min-h-screen bg-[#0f172a] flex flex-col items-center justify-center text-white px-4">
-      <div className="bg-white text-gray-900 p-8 rounded-2xl shadow-2xl max-w-md text-center">
-        <h1 className="text-2xl font-bold text-orange-500 mb-2">ধন্যবাদ!</h1>
-        <p className="text-sm text-gray-600 mb-6">আপনার ফর্মটি সফলভাবে জমা হয়েছে। খুব শীঘ্রই আমাদের একজন প্রতিনিধি আপনার সাথে যোগাযোগ করবেন।</p>
-        <a href="/" className="inline-block bg-orange-500 text-white font-bold px-6 py-3 rounded-full hover:bg-orange-600 transition text-sm">
-          হোম পেজে ফিরে যান
-        </a>
+    <div className="min-h-screen bg-[#0f172a] flex items-center justify-center px-4 font-sans">
+      <div className="max-w-xl w-full bg-white rounded-2xl shadow-2xl p-8 sm:p-12 text-center space-y-6">
+        
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-orange-600">
+          Thank You!
+        </h1>
+        
+        <p className="text-gray-600 text-base sm:text-lg leading-relaxed">
+          Your form has been submitted successfully. One of our representatives will contact you very soon.
+        </p>
+
+        <div className="pt-4">
+          <Link 
+            href="/" 
+            className="inline-block bg-orange-600 hover:bg-orange-700 text-white font-bold px-8 py-3.5 rounded-full transition shadow-lg text-sm sm:text-base"
+          >
+            Go Back Home
+          </Link>
+        </div>
+
       </div>
     </div>
   );

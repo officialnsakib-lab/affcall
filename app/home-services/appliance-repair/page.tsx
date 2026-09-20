@@ -7,14 +7,54 @@ import { useRouter } from 'next/navigation';
 export default function ApplianceRepairPage() {
   const router = useRouter();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  
+  // আসল ফর্মের স্টেট
+  const [formData, setFormData] = useState({
+    companyName: '',
+    fullName: '',
+    email: '',
+    phone: '',
+  });
+  
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  // Form submit handler
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/thank-you'); 
+    setLoading(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/send-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          category: 'Service Lead', // ফোল্ডার হিসেবে কাজ করবে
+          pageSource: 'Appliance Repair', // পেজের নাম
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        router.push('/thank-you');
+      } else {
+        setErrorMessage(data.message || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Submit error:', error);
+      setErrorMessage('Failed to submit the form. Please check your connection.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -44,14 +84,21 @@ export default function ApplianceRepairPage() {
               </p>
             </div>
 
-            {/* Right Form Box */}
+            {/* Right Form Box - অবিকল আপনার আগের ফর্মের মতো */}
             <div className="lg:col-span-5 bg-orange-500 p-6 sm:p-8 rounded-2xl shadow-lg text-white">
               <form onSubmit={handleFormSubmit} className="space-y-4">
+                {errorMessage && (
+                  <div className="bg-red-600 text-white p-3 rounded-lg text-sm">
+                    {errorMessage}
+                  </div>
+                )}
                 <div>
                   <input 
                     type="text" 
                     placeholder="Company Name" 
                     required
+                    value={formData.companyName}
+                    onChange={(e) => setFormData({...formData, companyName: e.target.value})}
                     className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
                   />
                 </div>
@@ -60,6 +107,8 @@ export default function ApplianceRepairPage() {
                     type="text" 
                     placeholder="Full Name" 
                     required
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({...formData, fullName: e.target.value})}
                     className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
                   />
                 </div>
@@ -68,6 +117,8 @@ export default function ApplianceRepairPage() {
                     type="email" 
                     placeholder="Email" 
                     required
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
                     className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
                   />
                 </div>
@@ -76,15 +127,18 @@ export default function ApplianceRepairPage() {
                     type="text" 
                     placeholder="Phone Number" 
                     required
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
                     className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
                   />
                 </div>
                 <div>
                   <button 
                     type="submit" 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition cursor-pointer text-sm shadow-md"
+                    disabled={loading}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition cursor-pointer text-sm shadow-md disabled:opacity-50"
                   >
-                    Submit
+                    {loading ? 'Submitting...' : 'Submit'}
                   </button>
                 </div>
               </form>
@@ -93,11 +147,10 @@ export default function ApplianceRepairPage() {
           </div>
         </section>
 
-        {/* ==================== 2. BROKEN APPLIANCES CAN'T WAIT — NEITHER SHOULD YOU! (Updated with Animation Video) ==================== */}
+        {/* ==================== 2. BROKEN APPLIANCES CAN'T WAIT ==================== */}
         <section className="bg-gray-50/50 py-20 border-y border-gray-100">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
-            {/* Custom Animation Video Box */}
             <div className="relative w-full h-[350px] lg:h-[420px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300 bg-black shadow-sm">
               <video 
                 autoPlay 
@@ -111,7 +164,6 @@ export default function ApplianceRepairPage() {
               </video>
             </div>
 
-            {/* Content */}
             <div className="space-y-6">
               <h2 className="text-2xl lg:text-3xl font-extrabold text-gray-900 leading-tight">
                 Broken Appliances Can't Wait — Neither Should You!
@@ -133,7 +185,7 @@ export default function ApplianceRepairPage() {
           </div>
         </section>
 
-        {/* ==================== 3. REAL REPAIR JOBS, REAL HOMEOWNERS, REAL REVENUE! ==================== */}
+        {/* ==================== 3. REAL REPAIR JOBS ==================== */}
         <section className="max-w-7xl mx-auto px-6 py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
@@ -164,7 +216,6 @@ export default function ApplianceRepairPage() {
               </div>
             </div>
 
-            {/* Image sv1.jpeg */}
             <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300">
               <img src="/sv1.jpeg" alt="Dashboard Teamwork Illustration" className="w-full h-full object-cover" />
             </div>
@@ -172,11 +223,10 @@ export default function ApplianceRepairPage() {
           </div>
         </section>
 
-        {/* ==================== 4. HOW WE KEEP YOUR PHONE RINGING WITH REPAIR LEADS? ==================== */}
+        {/* ==================== 4. HOW WE KEEP YOUR PHONE RINGING ==================== */}
         <section className="bg-gray-50/50 py-20 border-y border-gray-100">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
-            {/* Image sv2.jpeg */}
             <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300 order-2 lg:order-1">
               <img src="/sv2.jpeg" alt="Mobile Lead Generation Illustration" className="w-full h-full object-cover" />
             </div>
@@ -202,7 +252,7 @@ export default function ApplianceRepairPage() {
           </div>
         </section>
 
-        {/* ==================== 5. PREMIUM PHONE CALLS & WEB LEADS, READY FOR YOU! ==================== */}
+        {/* ==================== 5. PREMIUM PHONE CALLS ==================== */}
         <section className="bg-blue-50/80 py-20 border-y border-blue-100">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
@@ -224,7 +274,6 @@ export default function ApplianceRepairPage() {
               </p>
             </div>
 
-            {/* Image sv3.jpeg */}
             <div className="relative w-full h-[350px] lg:h-[400px] bg-white rounded-2xl overflow-hidden flex items-center justify-center border border-blue-200 shadow-sm">
               <img src="/sv3.jpeg" alt="Analytics and Graph Illustration" className="w-full h-full object-cover" />
             </div>
@@ -232,15 +281,13 @@ export default function ApplianceRepairPage() {
           </div>
         </section>
 
-        {/* ==================== 6. BENEFITS OF WORKING WITH US ==================== */}
+        {/* ==================== 6. BENEFITS ==================== */}
         <section className="max-w-7xl mx-auto px-6 py-20">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl font-extrabold text-gray-900">Benefits of Working With Us</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            {/* Card 1 */}
             <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
               <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">💳</div>
               <h3 className="text-xl font-bold text-gray-900">Prices</h3>
@@ -249,7 +296,6 @@ export default function ApplianceRepairPage() {
               </p>
             </div>
 
-            {/* Card 2 */}
             <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
               <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">📞</div>
               <h3 className="text-xl font-bold text-gray-900">Volume</h3>
@@ -258,7 +304,6 @@ export default function ApplianceRepairPage() {
               </p>
             </div>
 
-            {/* Card 3 */}
             <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
               <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">📊</div>
               <h3 className="text-xl font-bold text-gray-900">Call Tracking</h3>
@@ -266,7 +311,6 @@ export default function ApplianceRepairPage() {
                 Gain complete transparency with advanced call recordings, exact lead duration, conversion stats, and performance metrics to track your business's exact ROI.
               </p>
             </div>
-
           </div>
         </section>
 
@@ -276,8 +320,6 @@ export default function ApplianceRepairPage() {
             <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12">FAQ</h2>
 
             <div className="space-y-4">
-              
-              {/* FAQ Item 1 */}
               <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                 <button 
                   onClick={() => toggleFaq(0)}
@@ -293,7 +335,6 @@ export default function ApplianceRepairPage() {
                 )}
               </div>
 
-              {/* FAQ Item 2 */}
               <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                 <button 
                   onClick={() => toggleFaq(1)}
@@ -309,8 +350,7 @@ export default function ApplianceRepairPage() {
                 )}
               </div>
 
-              {/* FAQ Item 3 */}
-              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div className="bg-second bg-white rounded-xl border border-gray-200 overflow-hidden">
                 <button 
                   onClick={() => toggleFaq(2)}
                   className="w-full px-6 py-4 text-left font-bold text-sm sm:text-base flex justify-between items-center cursor-pointer"
@@ -325,7 +365,6 @@ export default function ApplianceRepairPage() {
                 )}
               </div>
 
-              {/* FAQ Item 4 */}
               <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                 <button 
                   onClick={() => toggleFaq(3)}
@@ -340,7 +379,6 @@ export default function ApplianceRepairPage() {
                   </div>
                 )}
               </div>
-
             </div>
           </div>
         </section>

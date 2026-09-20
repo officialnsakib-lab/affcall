@@ -8,13 +8,49 @@ export default function MedicareInsurancePage() {
   const router = useRouter();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
+  // Track form data state
+  const [formData, setFormData] = useState({
+    companyName: '',
+    fullName: '',
+    email: '',
+    phone: '',
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  // Form submit handler
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/thank-you'); 
+    setLoading(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/send-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        router.push('/thank-you');
+      } else {
+        setErrorMessage(data.message || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setErrorMessage('Failed to submit the form. Please check your connection.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,11 +83,18 @@ export default function MedicareInsurancePage() {
             {/* Right Form Box */}
             <div className="lg:col-span-5 bg-orange-500 p-6 sm:p-8 rounded-2xl shadow-lg text-white">
               <form onSubmit={handleFormSubmit} className="space-y-4">
+                {errorMessage && (
+                  <div className="bg-red-600 text-white p-3 rounded-lg text-sm">
+                    {errorMessage}
+                  </div>
+                )}
                 <div>
                   <input 
                     type="text" 
                     placeholder="Company Name" 
                     required
+                    value={formData.companyName}
+                    onChange={(e) => setFormData({...formData, companyName: e.target.value})}
                     className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
                   />
                 </div>
@@ -60,6 +103,8 @@ export default function MedicareInsurancePage() {
                     type="text" 
                     placeholder="Full Name" 
                     required
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({...formData, fullName: e.target.value})}
                     className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
                   />
                 </div>
@@ -68,6 +113,8 @@ export default function MedicareInsurancePage() {
                     type="email" 
                     placeholder="Email" 
                     required
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
                     className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
                   />
                 </div>
@@ -76,15 +123,18 @@ export default function MedicareInsurancePage() {
                     type="text" 
                     placeholder="Phone Number" 
                     required
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
                     className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
                   />
                 </div>
                 <div>
                   <button 
                     type="submit" 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition cursor-pointer text-sm shadow-md"
+                    disabled={loading}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition cursor-pointer text-sm shadow-md disabled:opacity-50"
                   >
-                    Submit
+                    {loading ? 'Submitting...' : 'Submit'}
                   </button>
                 </div>
               </form>
@@ -93,11 +143,10 @@ export default function MedicareInsurancePage() {
           </div>
         </section>
 
-        {/* ==================== 2. 10,000 AMERICANS TURN 65 EVERY DAY — ARE YOU READY? (With Animation Video) ==================== */}
+        {/* ==================== 2. 10,000 AMERICANS TURN 65 EVERY DAY — ARE YOU READY? ==================== */}
         <section className="bg-gray-50/50 py-20 border-y border-gray-100">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
-            {/* Custom Animation Video Box */}
             <div className="relative w-full h-[350px] lg:h-[420px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300 bg-black shadow-sm">
               <video 
                 autoPlay 
@@ -111,7 +160,6 @@ export default function MedicareInsurancePage() {
               </video>
             </div>
 
-            {/* Content */}
             <div className="space-y-6">
               <h2 className="text-2xl lg:text-3xl font-extrabold text-gray-900 leading-tight">
                 10,000 Americans Turn 65 Every Day — Are You Ready?
@@ -164,7 +212,6 @@ export default function MedicareInsurancePage() {
               </div>
             </div>
 
-            {/* Image sv1.jpeg */}
             <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300">
               <img src="/sv1.jpeg" alt="Teamwork and Dashboard Illustration" className="w-full h-full object-cover" />
             </div>
@@ -176,7 +223,6 @@ export default function MedicareInsurancePage() {
         <section className="bg-gray-50/50 py-20 border-y border-gray-100">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
-            {/* Image sv2.jpeg */}
             <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300 order-2 lg:order-1">
               <img src="/sv2.jpeg" alt="Mobile Lead Generation Illustration" className="w-full h-full object-cover" />
             </div>
@@ -224,7 +270,6 @@ export default function MedicareInsurancePage() {
               </p>
             </div>
 
-            {/* Image sv3.jpeg */}
             <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden flex items-center justify-center border border-blue-200 shadow-sm">
               <img src="/sv3.jpeg" alt="Analytics and Graph Illustration" className="w-full h-full object-cover" />
             </div>
@@ -240,7 +285,6 @@ export default function MedicareInsurancePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            {/* Card 1 */}
             <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
               <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">💳</div>
               <h3 className="text-xl font-bold text-gray-900">Prices</h3>
@@ -249,7 +293,6 @@ export default function MedicareInsurancePage() {
               </p>
             </div>
 
-            {/* Card 2 */}
             <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
               <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">📞</div>
               <h3 className="text-xl font-bold text-gray-900">Volume</h3>
@@ -258,7 +301,6 @@ export default function MedicareInsurancePage() {
               </p>
             </div>
 
-            {/* Card 3 */}
             <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
               <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">📊</div>
               <h3 className="text-xl font-bold text-gray-900">Call Tracking</h3>
@@ -277,7 +319,6 @@ export default function MedicareInsurancePage() {
 
             <div className="space-y-4">
               
-              {/* FAQ Item 1 */}
               <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                 <button 
                   onClick={() => toggleFaq(0)}
@@ -293,7 +334,6 @@ export default function MedicareInsurancePage() {
                 )}
               </div>
 
-              {/* FAQ Item 2 */}
               <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                 <button 
                   onClick={() => toggleFaq(1)}
@@ -309,7 +349,6 @@ export default function MedicareInsurancePage() {
                 )}
               </div>
 
-              {/* FAQ Item 3 */}
               <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                 <button 
                   onClick={() => toggleFaq(2)}
@@ -325,7 +364,6 @@ export default function MedicareInsurancePage() {
                 )}
               </div>
 
-              {/* FAQ Item 4 */}
               <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                 <button 
                   onClick={() => toggleFaq(3)}

@@ -9,13 +9,49 @@ export default function AutoInsurancePage() {
   const router = useRouter();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
+  // Track form data state
+  const [formData, setFormData] = useState({
+    companyName: '',
+    fullName: '',
+    email: '',
+    phone: '',
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  // Form submit handler with API route
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/thank-you'); 
+    setLoading(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/send-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        router.push('/thank-you');
+      } else {
+        setErrorMessage(data.message || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setErrorMessage('Failed to submit the form. Please check your connection.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,12 +82,19 @@ export default function AutoInsurancePage() {
 
             <div className="lg:col-span-5 bg-orange-500 p-6 sm:p-8 rounded-2xl shadow-lg text-white">
               <form onSubmit={handleFormSubmit} className="space-y-4">
+                {errorMessage && (
+                  <div className="bg-red-600 text-white p-3 rounded-lg text-sm">
+                    {errorMessage}
+                  </div>
+                )}
                 <div>
                   <input 
                     type="text" 
                     placeholder="Company Name" 
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
+                    value={formData.companyName}
+                    onChange={(e) => setFormData({...formData, companyName: e.target.value})}
+                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none placeholder-gray-400"
                   />
                 </div>
                 <div>
@@ -59,7 +102,9 @@ export default function AutoInsurancePage() {
                     type="text" 
                     placeholder="Full Name" 
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none placeholder-gray-400"
                   />
                 </div>
                 <div>
@@ -67,7 +112,9 @@ export default function AutoInsurancePage() {
                     type="email" 
                     placeholder="Email" 
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none placeholder-gray-400"
                   />
                 </div>
                 <div>
@@ -75,15 +122,18 @@ export default function AutoInsurancePage() {
                     type="text" 
                     placeholder="Phone Number" 
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none placeholder-gray-400"
                   />
                 </div>
                 <div>
                   <button 
                     type="submit" 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition cursor-pointer text-sm"
+                    disabled={loading}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition cursor-pointer text-sm shadow-md disabled:opacity-50"
                   >
-                    Submit
+                    {loading ? 'Submitting...' : 'Submit'}
                   </button>
                 </div>
               </form>

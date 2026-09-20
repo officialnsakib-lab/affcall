@@ -8,13 +8,49 @@ export default function CarBookingPage() {
   const router = useRouter();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
+  // Track form data state
+  const [formData, setFormData] = useState({
+    companyName: '',
+    fullName: '',
+    email: '',
+    phone: '',
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const toggleFaq = (index: number) => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  // Form submit handler
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/thank-you'); 
+    setLoading(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/send-lead', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        router.push('/thank-you');
+      } else {
+        setErrorMessage(data.message || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setErrorMessage('Failed to submit the form. Please check your connection.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,14 +81,21 @@ export default function CarBookingPage() {
             </div>
 
             {/* Right Form Box */}
-            <div className="lg:col-span-5 bg-orange-500 p-6 sm:p-8 rounded-2xl shadow-lg text-white">
+            <div className="lg:col-span-5 bg-gradient-to-br from-orange-500 to-orange-600 p-6 sm:p-8 rounded-2xl shadow-xl text-white">
               <form onSubmit={handleFormSubmit} className="space-y-4">
+                {errorMessage && (
+                  <div className="bg-red-600 text-white p-3 rounded-lg text-sm">
+                    {errorMessage}
+                  </div>
+                )}
                 <div>
                   <input 
                     type="text" 
                     placeholder="Company Name" 
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
+                    value={formData.companyName}
+                    onChange={(e) => setFormData({...formData, companyName: e.target.value})}
+                    className="w-full px-4 py-3 rounded-lg bg-white/95 text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                 </div>
                 <div>
@@ -60,7 +103,9 @@ export default function CarBookingPage() {
                     type="text" 
                     placeholder="Full Name" 
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                    className="w-full px-4 py-3 rounded-lg bg-white/95 text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                 </div>
                 <div>
@@ -68,7 +113,9 @@ export default function CarBookingPage() {
                     type="email" 
                     placeholder="Email" 
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    className="w-full px-4 py-3 rounded-lg bg-white/95 text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                 </div>
                 <div>
@@ -76,15 +123,18 @@ export default function CarBookingPage() {
                     type="text" 
                     placeholder="Phone Number" 
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 text-sm focus:outline-none"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    className="w-full px-4 py-3 rounded-lg bg-white/95 text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                 </div>
                 <div>
                   <button 
                     type="submit" 
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition cursor-pointer text-sm shadow-md"
+                    disabled={loading}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg transition-colors cursor-pointer text-sm shadow-md disabled:opacity-50"
                   >
-                    Submit
+                    {loading ? 'Submitting...' : 'Submit'}
                   </button>
                 </div>
               </form>
@@ -93,12 +143,12 @@ export default function CarBookingPage() {
           </div>
         </section>
 
-        {/* ==================== 2. EVERY JOURNEY NEEDS A RELIABLE RIDE — BE THEIR FIRST CHOICE! (Updated with Animation Video) ==================== */}
+        {/* ==================== 2. EVERY JOURNEY NEEDS A RELIABLE RIDE — BE THEIR FIRST CHOICE! ==================== */}
         <section className="bg-gray-50/50 py-20 border-y border-gray-100">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
             {/* Custom Animation Video Box */}
-            <div className="relative w-full h-[350px] lg:h-[420px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300 bg-black shadow-sm">
+            <div className="relative w-full h-[350px] lg:h-[420px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-200 bg-black shadow-sm">
               <video 
                 autoPlay 
                 loop 
@@ -145,27 +195,27 @@ export default function CarBookingPage() {
               <div className="space-y-4 text-sm text-gray-600">
                 <div className="flex items-start space-x-3">
                   <span className="text-orange-500 font-bold mt-1">✔</span>
-                  <p><strong>Protect your marketing budget:</strong> Invest in high-quality traffic that produces real revenue. We filter out low-intent clicks and send only genuine buyers looking for car rental and booking services.</p>
+                  <p><strong className="text-gray-900">Protect your marketing budget:</strong> Invest in high-quality traffic that produces real revenue. We filter out low-intent clicks and send only genuine buyers looking for car rental and booking services.</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <span className="text-orange-500 font-bold mt-1">✔</span>
-                  <p><strong>Secure exclusive contacts:</strong> Stop sharing your leads with dozens of competing rental agencies. Our exclusive lead routing system ensures every customer connects with you alone, dramatically increasing conversion rates.</p>
+                  <p><strong className="text-gray-900">Secure exclusive contacts:</strong> Stop sharing your leads with dozens of competing rental agencies. Our exclusive lead routing system ensures every customer connects with you alone, dramatically increasing conversion rates.</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <span className="text-orange-500 font-bold mt-1">✔</span>
-                  <p><strong>Scale predictably:</strong> Grow your car rental business month after month with a steady influx of high-intent drivers and travelers looking to secure vehicle bookings without straining your marketing budget.</p>
+                  <p><strong className="text-gray-900">Scale predictably:</strong> Grow your car rental business month after month with a steady influx of high-intent drivers and travelers looking to secure vehicle bookings without straining your marketing budget.</p>
                 </div>
               </div>
 
               <div className="pt-2">
-                <Link href="/contact" className="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-lg text-sm transition">
+                <Link href="/contact" className="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-lg text-sm transition-colors shadow-sm">
                   Get Started Now
                 </Link>
               </div>
             </div>
 
             {/* Image sv1.jpeg */}
-            <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300">
+            <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-200 shadow-sm">
               <img src="/sv1.jpeg" alt="Dashboard Teamwork Illustration" className="w-full h-full object-cover" />
             </div>
 
@@ -177,7 +227,7 @@ export default function CarBookingPage() {
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
             {/* Image sv2.jpeg */}
-            <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-300 order-2 lg:order-1">
+            <div className="relative w-full h-[350px] lg:h-[400px] rounded-2xl overflow-hidden flex items-center justify-center border border-gray-200 shadow-sm order-2 lg:order-1">
               <img src="/sv2.jpeg" alt="Mobile Lead Generation Illustration" className="w-full h-full object-cover" />
             </div>
 
@@ -191,7 +241,7 @@ export default function CarBookingPage() {
               </p>
 
               <p className="text-sm text-gray-600 leading-relaxed">
-                <strong>INBOUND CALLS:</strong> When a user calls via our managed tracking numbers, our intelligent platform routes the call instantly to your booking agents. No waiting periods, no unverified cold forms — just live conversations with high-intent drivers looking to rent a car right now.
+                <strong className="text-gray-900">INBOUND CALLS:</strong> When a user calls via our managed tracking numbers, our intelligent platform routes the call instantly to your booking agents. No waiting periods, no unverified cold forms — just live conversations with high-intent drivers looking to rent a car right now.
               </p>
 
               <p className="text-sm text-gray-600 leading-relaxed">
@@ -203,7 +253,7 @@ export default function CarBookingPage() {
         </section>
 
         {/* ==================== 5. PREMIUM PHONE CALLS & WEB LEADS, READY FOR YOU! ==================== */}
-        <section className="bg-blue-50/80 py-20 border-y border-blue-100">
+        <section className="bg-blue-50/50 py-20 border-y border-blue-100/60">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             
             <div className="space-y-6">
@@ -225,7 +275,7 @@ export default function CarBookingPage() {
             </div>
 
             {/* Image sv3.jpeg */}
-            <div className="relative w-full h-[350px] lg:h-[400px] bg-white rounded-2xl overflow-hidden flex items-center justify-center border border-blue-200 shadow-sm">
+            <div className="relative w-full h-[350px] lg:h-[400px] bg-white rounded-2xl overflow-hidden flex items-center justify-center border border-blue-100 shadow-sm">
               <img src="/sv3.jpeg" alt="Analytics and Graph Illustration" className="w-full h-full object-cover" />
             </div>
 
@@ -241,8 +291,8 @@ export default function CarBookingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
             {/* Card 1 */}
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
-              <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">💳</div>
+            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4 hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold text-lg">💳</div>
               <h3 className="text-xl font-bold text-gray-900">Prices</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
                 Enjoy transparent and cost-effective pricing tailored to your fleet's goals. Only pay for high-intent traffic and verified calls that drive real business value.
@@ -250,8 +300,8 @@ export default function CarBookingPage() {
             </div>
 
             {/* Card 2 */}
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
-              <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">📞</div>
+            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4 hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold text-lg">📞</div>
               <h3 className="text-xl font-bold text-gray-900">Volume</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
                 Scale your reservation pipeline seamlessly with steady, consistent inbound calls tailored to your target service zones and vehicle categories.
@@ -259,8 +309,8 @@ export default function CarBookingPage() {
             </div>
 
             {/* Card 3 */}
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4">
-              <div className="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold">📊</div>
+            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center space-y-4 hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto font-bold text-lg">📊</div>
               <h3 className="text-xl font-bold text-gray-900">Call Tracking</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
                 Gain complete transparency with advanced call recordings, exact lead duration, conversion stats, and performance metrics to track your business's exact ROI.
@@ -278,13 +328,13 @@ export default function CarBookingPage() {
             <div className="space-y-4">
               
               {/* FAQ Item 1 */}
-              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                 <button 
                   onClick={() => toggleFaq(0)}
-                  className="w-full px-6 py-4 text-left font-bold text-sm sm:text-base flex justify-between items-center cursor-pointer"
+                  className="w-full px-6 py-4 text-left font-bold text-sm sm:text-base flex justify-between items-center cursor-pointer text-gray-900 hover:bg-gray-50/50 transition-colors"
                 >
                   <span>What types of leads do you offer—AffCall provider?</span>
-                  <span className="text-orange-500">{openFaq === 0 ? '−' : '+'}</span>
+                  <span className="text-orange-500 text-lg">{openFaq === 0 ? '−' : '+'}</span>
                 </button>
                 {openFaq === 0 && (
                   <div className="px-6 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
@@ -294,13 +344,13 @@ export default function CarBookingPage() {
               </div>
 
               {/* FAQ Item 2 */}
-              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                 <button 
                   onClick={() => toggleFaq(1)}
-                  className="w-full px-6 py-4 text-left font-bold text-sm sm:text-base flex justify-between items-center cursor-pointer"
+                  className="w-full px-6 py-4 text-left font-bold text-sm sm:text-base flex justify-between items-center cursor-pointer text-gray-900 hover:bg-gray-50/50 transition-colors"
                 >
                   <span>How does the pay-per-call model work?</span>
-                  <span className="text-orange-500">{openFaq === 1 ? '−' : '+'}</span>
+                  <span className="text-orange-500 text-lg">{openFaq === 1 ? '−' : '+'}</span>
                 </button>
                 {openFaq === 1 && (
                   <div className="px-6 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
@@ -310,13 +360,13 @@ export default function CarBookingPage() {
               </div>
 
               {/* FAQ Item 3 */}
-              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                 <button 
                   onClick={() => toggleFaq(2)}
-                  className="w-full px-6 py-4 text-left font-bold text-sm sm:text-base flex justify-between items-center cursor-pointer"
+                  className="w-full px-6 py-4 text-left font-bold text-sm sm:text-base flex justify-between items-center cursor-pointer text-gray-900 hover:bg-gray-50/50 transition-colors"
                 >
                   <span>How do you ensure the quality of your leads?</span>
-                  <span className="text-orange-500">{openFaq === 2 ? '−' : '+'}</span>
+                  <span className="text-orange-500 text-lg">{openFaq === 2 ? '−' : '+'}</span>
                 </button>
                 {openFaq === 2 && (
                   <div className="px-6 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
@@ -326,13 +376,13 @@ export default function CarBookingPage() {
               </div>
 
               {/* FAQ Item 4 */}
-              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                 <button 
                   onClick={() => toggleFaq(3)}
-                  className="w-full px-6 py-4 text-left font-bold text-sm sm:text-base flex justify-between items-center cursor-pointer"
+                  className="w-full px-6 py-4 text-left font-bold text-sm sm:text-base flex justify-between items-center cursor-pointer text-gray-900 hover:bg-gray-50/50 transition-colors"
                 >
                   <span>How do I get started with AffCall?</span>
-                  <span className="text-orange-500">{openFaq === 3 ? '−' : '+'}</span>
+                  <span className="text-orange-500 text-lg">{openFaq === 3 ? '−' : '+'}</span>
                 </button>
                 {openFaq === 3 && (
                   <div className="px-6 pb-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">

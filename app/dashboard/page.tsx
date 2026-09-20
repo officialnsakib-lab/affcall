@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Users, Mail, Phone, Calendar, Database, AlertCircle, Trash2, RefreshCw, Eye, X } from 'lucide-react';
+import { Users, Mail, Phone, Calendar, Database, AlertCircle, Trash2, RefreshCw, Eye, X, Folder } from 'lucide-react';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -12,7 +12,9 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [selectedSubmission, setSelectedSubmission] = useState<any | null>(null);
 
-  // লোকালস্টোরেজ থেকে পঠিত সাবমিশনগুলোর আইডি লোড করা
+  // 📁 activeTab দিয়ে আলাদা ফোল্ডার ফিল্টার হবে
+  const [activeTab, setActiveTab] = useState<'main' | 'services'>('main');
+
   useEffect(() => {
     const savedReadIds = localStorage.getItem('affcall_read_submissions');
     if (savedReadIds) {
@@ -24,7 +26,6 @@ export default function DashboardPage() {
     }
   }, []);
 
-  // ডাটা লোড করার ফাংশন
   const fetchSubmissions = async () => {
     setLoading(true);
     setHasError(false);
@@ -48,7 +49,6 @@ export default function DashboardPage() {
     fetchSubmissions();
   }, []);
 
-  // কোনো সাবমিশনের ডিটেইলস দেখলে তাকে 'Read' হিসেবে মার্ক করার ফাংশন
   const handleViewDetails = (item: any) => {
     setSelectedSubmission(item);
     if (!readIds.includes(item._id)) {
@@ -58,7 +58,6 @@ export default function DashboardPage() {
     }
   };
 
-  // ডাটা ডিলিট করার ফাংশন
   const handleDelete = async (id: string, type: string) => {
     if (!confirm('Are you sure you want to delete this submission?')) return;
 
@@ -84,12 +83,18 @@ export default function DashboardPage() {
     }
   };
 
+  // 📂 ফোল্ডার ওয়াইজ ফিল্টার লজিক
+  const mainFolderSubmissions = allSubmissions.filter(item => item.category !== 'Service Lead');
+  const serviceFolderSubmissions = allSubmissions.filter(item => item.category === 'Service Lead');
+
+  const displayedSubmissions = activeTab === 'main' ? mainFolderSubmissions : serviceFolderSubmissions;
+
   return (
     <div className="min-h-screen bg-[#0b132b] text-white p-6 md:p-10">
       <div className="max-w-7xl mx-auto">
         
         {/* ড্যাশবোর্ড হেডার */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-gray-800 pb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b border-gray-800 pb-6">
           <div>
             <span className="text-orange-500 text-xs font-bold tracking-widest uppercase">— Admin Panel —</span>
             <h1 className="text-3xl font-extrabold mt-1">AffCall Unified Dashboard</h1>
@@ -115,6 +120,33 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {/* 📁 Folder / Tab Bar */}
+        <div className="flex space-x-3 mb-6">
+          <button
+            onClick={() => setActiveTab('main')}
+            className={`px-5 py-2.5 rounded-xl text-sm font-bold flex items-center space-x-2 transition cursor-pointer border ${
+              activeTab === 'main'
+                ? 'bg-orange-500 text-white border-orange-500 shadow-lg'
+                : 'bg-[#111827] text-gray-400 border-gray-800 hover:text-white hover:bg-gray-800'
+            }`}
+          >
+            <Folder className="w-4 h-4" />
+            <span>Main Folder ({mainFolderSubmissions.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('services')}
+            className={`px-5 py-2.5 rounded-xl text-sm font-bold flex items-center space-x-2 transition cursor-pointer border ${
+              activeTab === 'services'
+                ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
+                : 'bg-[#111827] text-gray-400 border-gray-800 hover:text-white hover:bg-gray-800'
+            }`}
+          >
+            <Folder className="w-4 h-4" />
+            <span>18 Service Pages Folder ({serviceFolderSubmissions.length})</span>
+          </button>
+        </div>
+
         {/* ডেটাবেজ এরর অ্যালার্ট */}
         {hasError && (
           <div className="mb-6 bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-xl flex items-center space-x-3">
@@ -130,7 +162,7 @@ export default function DashboardPage() {
               <thead>
                 <tr className="bg-[#1f2937] text-gray-300 text-xs uppercase tracking-wider border-b border-gray-800">
                   <th className="p-4 font-semibold">Name / Company</th>
-                  <th className="p-4 font-semibold">Form Type</th>
+                  <th className="p-4 font-semibold">Form Type / Page</th>
                   <th className="p-4 font-semibold">Email Address</th>
                   <th className="p-4 font-semibold">Phone</th>
                   <th className="p-4 font-semibold">Summary Details</th>
@@ -139,17 +171,17 @@ export default function DashboardPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800 text-sm">
-                {allSubmissions.map((item: any) => {
+                {displayedSubmissions.map((item: any) => {
                   const isUnread = !readIds.includes(item._id);
                   return (
                     <tr key={item._id} className="hover:bg-[#1a2234] transition">
                       <td className="p-4 font-medium text-white flex items-center space-x-2">
                         <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center font-bold flex-shrink-0 relative">
-                          {item.name ? item.name.charAt(0).toUpperCase() : (item.firstName ? item.firstName.charAt(0).toUpperCase() : 'U')}
+                          {item.name ? item.name.charAt(0).toUpperCase() : (item.fullName ? item.fullName.charAt(0).toUpperCase() : 'U')}
                         </div>
                         <div className="flex items-center space-x-2 truncate">
                           <span className="truncate max-w-[140px]">
-                            {item.name || (item.firstName ? `${item.firstName} ${item.lastName || ''}` : 'N/A')}
+                            {item.name || item.fullName || (item.firstName ? `${item.firstName} ${item.lastName || ''}` : 'N/A')}
                           </span>
                           {isUnread && (
                             <span className="bg-red-500 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full animate-pulse uppercase tracking-wider">
@@ -160,11 +192,13 @@ export default function DashboardPage() {
                       </td>
                       <td className="p-4">
                         <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border whitespace-nowrap ${
-                          item.type === 'Advertiser' 
+                          item.category === 'Service Lead'
+                            ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                            : item.type === 'Advertiser' 
                             ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' 
                             : 'bg-orange-500/10 text-orange-400 border-orange-500/20'
                         }`}>
-                          {item.type}
+                          {item.pageSource || item.type || 'General Lead'}
                         </span>
                       </td>
                       <td className="p-4 text-gray-300">
@@ -180,7 +214,7 @@ export default function DashboardPage() {
                         </div>
                       </td>
                       <td className="p-4 text-gray-400 max-w-xs truncate" title={item.message || item.companyName}>
-                        {item.message || item.companyName || item.industry || 'No additional details'}
+                        {item.companyName || item.message || item.industry || 'No additional details'}
                       </td>
                       <td className="p-4 text-gray-400 whitespace-nowrap">
                         <div className="flex items-center space-x-1.5 text-xs">
@@ -192,7 +226,6 @@ export default function DashboardPage() {
                         <button
                           onClick={() => handleViewDetails(item)}
                           className="bg-blue-500/10 hover:bg-blue-600 text-blue-400 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center space-x-1 cursor-pointer"
-                          title="View All Fields"
                         >
                           <Eye className="w-3.5 h-3.5" />
                           <span>Details</span>
@@ -200,7 +233,6 @@ export default function DashboardPage() {
                         <button
                           onClick={() => handleDelete(item._id, item.type)}
                           className="bg-red-500/10 hover:bg-red-600 text-red-400 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center space-x-1 cursor-pointer"
-                          title="Delete Submission"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                           <span>Delete</span>
@@ -210,12 +242,11 @@ export default function DashboardPage() {
                   );
                 })}
                 
-                {allSubmissions.length === 0 && !hasError && !loading && (
+                {displayedSubmissions.length === 0 && !hasError && !loading && (
                   <tr>
                     <td colSpan={7} className="p-12 text-center text-gray-500">
                       <Users className="w-12 h-12 mx-auto text-gray-600 mb-3" />
-                      <p className="text-base font-medium">No submissions found in the database yet.</p>
-                      <p className="text-xs text-gray-600 mt-1">Submitted forms will appear here automatically.</p>
+                      <p className="text-base font-medium">No submissions found in this folder.</p>
                     </td>
                   </tr>
                 )}
@@ -226,15 +257,15 @@ export default function DashboardPage() {
 
       </div>
 
-      {/* ফুল ডিটেইলস পপআপ মডাল */}
+      {/* Detail Modal */}
       {selectedSubmission && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-[#111827] border border-gray-800 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden my-8">
             <div className="bg-[#1f2937] px-6 py-4 flex justify-between items-center border-b border-gray-800">
               <div>
-                <span className="text-orange-500 text-xs font-bold uppercase tracking-wider">{selectedSubmission.type} Details</span>
+                <span className="text-orange-500 text-xs font-bold uppercase tracking-wider">{selectedSubmission.pageSource || selectedSubmission.type} Details</span>
                 <h3 className="text-lg font-bold text-white">
-                  {selectedSubmission.name || (selectedSubmission.firstName ? `${selectedSubmission.firstName} ${selectedSubmission.lastName || ''}` : 'Submission Information')}
+                  {selectedSubmission.name || selectedSubmission.fullName || 'Submission Details'}
                 </h3>
               </div>
               <button 
