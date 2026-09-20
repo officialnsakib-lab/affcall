@@ -23,7 +23,7 @@ export default function LoginPage() {
       router.push('/dashboard');
       router.refresh();
     } else {
-      setError('ভুল ইমেইল অথবা পাসওয়ার্ড দিয়েছেন!');
+      setError('wrong pass & mail');
     }
   };
 
