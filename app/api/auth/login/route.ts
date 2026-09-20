@@ -2,17 +2,19 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const body = await request.json();
+    const { email, password } = body;
 
-    // পরিবেশ পরিবর্তনশীল (Environment Variables) থেকে ইমেইল ও পাসওয়ার্ড যাচাই
-    const adminEmail = process.env.ADMIN_EMAIL; // আপনার `.env.local` ফাইলে এটি দিতে হবে
+    const adminEmail = process.env.ADMIN_EMAIL;
     const adminPassword = process.env.ADMIN_PASSWORD;
 
-    // ইমেইল এবং পাসওয়ার্ড উভয়ই মিলতে হবে
+    // কনসোলে চেক করার জন্য প্রিন্ট করা হলো
+    console.log("Form Sent -> Email:", email, "Password:", password);
+    console.log("Env Config -> Email:", adminEmail, "Password:", adminPassword);
+
     if (email === adminEmail && password === adminPassword) {
       const response = NextResponse.json({ success: true });
       
-      // ১ দিনের জন্য সিকিউর কুকি সেট করা হলো
       response.cookies.set({
         name: 'admin_logged_in',
         value: 'true',
@@ -25,12 +27,12 @@ export async function POST(request: Request) {
       return response;
     }
 
-    return NextResponse.json( 
+    return NextResponse.json(
       { success: false, message: 'Invalid email or password' }, 
-      { status: 401 } 
+      { status: 401 }
     );
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login API error:', error);
     return NextResponse.json(
       { success: false, message: 'Internal Server Error' }, 
       { status: 500 }
