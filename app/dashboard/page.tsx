@@ -12,7 +12,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [selectedSubmission, setSelectedSubmission] = useState<any | null>(null);
 
-  // 📁 activeTab দিয়ে আলাদা ফোল্ডার ফিল্টার হবে
+  // 📁 activeTab দিয়ে আলাদা ফোল্ডার ফিল্টার হবে
   const [activeTab, setActiveTab] = useState<'main' | 'services'>('main');
 
   useEffect(() => {
@@ -83,9 +83,13 @@ export default function DashboardPage() {
     }
   };
 
-  // 📂 ফোল্ডার ওয়াইজ ফিল্টার লজিক
+  // 📂 ফোল্ডার ওয়াইজ ফিল্টার লজিক
   const mainFolderSubmissions = allSubmissions.filter(item => item.category !== 'Service Lead');
   const serviceFolderSubmissions = allSubmissions.filter(item => item.category === 'Service Lead');
+
+  // 🟢 নতুন বা আনরিড ডেটা চেক করার লজিক
+  const hasMainUnread = mainFolderSubmissions.some(item => !readIds.includes(item._id));
+  const hasServiceUnread = serviceFolderSubmissions.some(item => !readIds.includes(item._id));
 
   const displayedSubmissions = activeTab === 'main' ? mainFolderSubmissions : serviceFolderSubmissions;
 
@@ -122,9 +126,10 @@ export default function DashboardPage() {
 
         {/* 📁 Folder / Tab Bar */}
         <div className="flex space-x-3 mb-6">
+          {/* Main Folder Button */}
           <button
             onClick={() => setActiveTab('main')}
-            className={`px-5 py-2.5 rounded-xl text-sm font-bold flex items-center space-x-2 transition cursor-pointer border ${
+            className={`relative px-5 py-2.5 rounded-xl text-sm font-bold flex items-center space-x-2 transition cursor-pointer border ${
               activeTab === 'main'
                 ? 'bg-orange-500 text-white border-orange-500 shadow-lg'
                 : 'bg-[#111827] text-gray-400 border-gray-800 hover:text-white hover:bg-gray-800'
@@ -132,11 +137,18 @@ export default function DashboardPage() {
           >
             <Folder className="w-4 h-4" />
             <span>Main Folder ({mainFolderSubmissions.length})</span>
+            {hasMainUnread && (
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+              </span>
+            )}
           </button>
 
+          {/* Service Pages Folder Button */}
           <button
             onClick={() => setActiveTab('services')}
-            className={`px-5 py-2.5 rounded-xl text-sm font-bold flex items-center space-x-2 transition cursor-pointer border ${
+            className={`relative px-5 py-2.5 rounded-xl text-sm font-bold flex items-center space-x-2 transition cursor-pointer border ${
               activeTab === 'services'
                 ? 'bg-blue-600 text-white border-blue-600 shadow-lg'
                 : 'bg-[#111827] text-gray-400 border-gray-800 hover:text-white hover:bg-gray-800'
@@ -144,6 +156,12 @@ export default function DashboardPage() {
           >
             <Folder className="w-4 h-4" />
             <span>18 Service Pages Folder ({serviceFolderSubmissions.length})</span>
+            {hasServiceUnread && (
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+              </span>
+            )}
           </button>
         </div>
 
