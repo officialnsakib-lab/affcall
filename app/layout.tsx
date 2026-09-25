@@ -22,11 +22,13 @@ export const metadata: Metadata = {
   },
 };
 
-// মোবাইলের জুম ও রেস্পন্সিভনেস সমস্যার সমাধানের জন্য ভিউপোর্ট এক্সপোর্ট যুক্ত করা হলো
+// মোবাইলের জুম ও রেস্পন্সিভনেস সমস্যা পুরোপুরি আটকাতে এটি আপডেট করা হলো
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
+  minimumScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
@@ -42,7 +44,7 @@ export default function RootLayout({
         <Navbar />
 
         {/* Main Content Area */}
-        <main className="flex-grow">
+        <main className="flex-grow w-full overflow-x-hidden">
           {children}
         </main>
 

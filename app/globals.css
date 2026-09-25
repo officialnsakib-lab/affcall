@@ -15,11 +15,11 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: --foreground;
+    --foreground: #ededed;
   }
 }
 
-/* নিচের কোডগুলো মোবাইলের জুম ও ওভারফ্লো সমস্যা সমাধান করবে */
+/* মোবাইলের জুম ও ওভারফ্লো সমস্যা সমাধানের কোড */
 *, *::before, *::after {
   box-sizing: border-box;
 }
