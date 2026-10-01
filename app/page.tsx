@@ -510,11 +510,11 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Added Buttons Section */}
+              {/* Updated Buttons Section with Orange Color */}
               <div className="flex flex-wrap gap-4 pt-4">
                 <Link 
                   href="#" 
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all duration-300 inline-flex items-center space-x-2 text-sm"
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all duration-300 inline-flex items-center space-x-2 text-sm"
                 >
                   <span>I&apos;m An Advertiser</span>
                   <span>&rarr;</span>
@@ -522,7 +522,7 @@ export default function Home() {
                 
                 <Link 
                   href="#" 
-                  className="bg-white hover:bg-blue-50 text-blue-600 border-2 border-blue-600 font-semibold px-6 py-3 rounded-lg shadow-sm transition-all duration-300 inline-flex items-center space-x-2 text-sm"
+                  className="bg-white hover:bg-orange-50 text-orange-500 border-2 border-orange-500 font-semibold px-6 py-3 rounded-lg shadow-sm transition-all duration-300 inline-flex items-center space-x-2 text-sm"
                 >
                   <span>I&apos;m A Publisher</span>
                   <span>&rarr;</span>
@@ -533,7 +533,7 @@ export default function Home() {
 
             {/* Interactive Globe Map Animation Container */}
             <div className="lg:w-1/2 mt-12 lg:mt-0 flex justify-center relative w-full h-[380px] sm:h-[450px] lg:h-[500px] z-10">
-              <div className="w-full max-w-lg h-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900/5 relative">
+              <div className="w-full max-w-lg h-full rounded-2xl overflow-hidden shadow-2xl bg-slate-900/5 relative">
                 <canvas ref={canvasRef} className="absolute inset-0 w-full h-full cursor-pointer" aria-label="Globe showing live calls routed to buyers" />
                 
                 {/* Exact Buyer File Card Design & Animation Classes */}

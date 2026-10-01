@@ -55,7 +55,10 @@ export default function Navbar() {
           <nav className="hidden lg:flex items-center space-x-12 absolute left-1/2 -translate-x-1/2">
             
             {/* 1. Insurance Dropdown */}
-            <div className="relative py-3">
+            <div 
+              className="relative py-3 group"
+              onMouseEnter={() => setActiveDropdown("insurance")}
+            >
               <button 
                 onClick={() => handleDropdownClick("insurance")}
                 className="flex items-center gap-2 text-gray-800 hover:text-amber-500 font-semibold text-base transition"
@@ -74,7 +77,7 @@ export default function Navbar() {
               {activeDropdown === "insurance" && (
                 <div className="absolute top-full left-0 w-72 bg-white shadow-2xl rounded-2xl p-3 border border-gray-100 pt-3">
                   <div className="flex items-center gap-2.5 pb-2.5 mb-2 border-b border-gray-100">
-                    <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center text-amber-500 text-sm">🛡️</div>
+                    <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center text-amber-500 text-sm">🛡</div>
                     <div>
                       <h4 className="font-bold text-gray-900 text-xs">Insurance</h4>
                       <p className="text-[11px] text-gray-500">High-intent insurance calls</p>
@@ -103,7 +106,10 @@ export default function Navbar() {
             </div>
 
             {/* 2. Home Services Dropdown */}
-            <div className="relative py-3">
+            <div 
+              className="relative py-3 group"
+              onMouseEnter={() => setActiveDropdown("homeservices")}
+            >
               <button 
                 onClick={() => handleDropdownClick("homeservices")}
                 className="flex items-center gap-2 text-gray-800 hover:text-amber-500 font-semibold text-base transition"
@@ -153,7 +159,10 @@ export default function Navbar() {
             </div>
 
             {/* 3. Medical Dropdown */}
-            <div className="relative py-3">
+            <div 
+              className="relative py-3 group"
+              onMouseEnter={() => setActiveDropdown("medical")}
+            >
               <button 
                 onClick={() => handleDropdownClick("medical")}
                 className="flex items-center gap-2 text-gray-800 hover:text-amber-500 font-semibold text-base transition"
@@ -198,7 +207,10 @@ export default function Navbar() {
             </div>
 
             {/* 4. Travel Dropdown */}
-            <div className="relative py-3">
+            <div 
+              className="relative py-3 group"
+              onMouseEnter={() => setActiveDropdown("travel")}
+            >
               <button 
                 onClick={() => handleDropdownClick("travel")}
                 className="flex items-center gap-2 text-gray-800 hover:text-amber-500 font-semibold text-base transition"
