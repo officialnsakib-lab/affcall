@@ -513,7 +513,7 @@ export default function Home() {
               {/* Updated Buttons Section with Orange Color */}
               <div className="flex flex-wrap gap-4 pt-4">
                 <Link 
-                  href="#" 
+                  href="/form/advertiser-register" 
                   className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all duration-300 inline-flex items-center space-x-2 text-sm"
                 >
                   <span>I&apos;m An Advertiser</span>
@@ -521,7 +521,7 @@ export default function Home() {
                 </Link>
                 
                 <Link 
-                  href="#" 
+                  href="/form/affiliate-register" 
                   className="bg-white hover:bg-orange-50 text-orange-500 border-2 border-orange-500 font-semibold px-6 py-3 rounded-lg shadow-sm transition-all duration-300 inline-flex items-center space-x-2 text-sm"
                 >
                   <span>I&apos;m A Publisher</span>
