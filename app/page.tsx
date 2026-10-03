@@ -115,7 +115,7 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [generateCallsData.length]);
 
-  // Exact Globe & Animation Engine from Buyer's file
+  // Exact Globe & Animation Engine
   useEffect(() => {
     const cv = canvasRef.current;
     if (!cv) return;
@@ -469,7 +469,7 @@ export default function Home() {
       <main>
         
         {/* 1. Hero Section */}
-        <section className="relative bg-cover bg-center bg-no-repeat py-12 lg:py-20 overflow-hidden" style={{ backgroundImage: `url('Sakib.png')` }}>
+        <section className="relative bg-cover bg-center bg-no-repeat py-12 lg:py-20 overflow-hidden" style={{ backgroundImage: `url('Sak.png')` }}>
           <div className="absolute inset-0 bg-white/40 lg:bg-white/30"></div>
 
           <div className="relative max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between">
@@ -905,7 +905,7 @@ export default function Home() {
             </div>
 
             {/* Right side: Map Animation Video */}
-            <div className="lg:col-span-5 flex justify-center items-center bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm">
+            <div className="lg:col-span-5 flex justify-center items-center bg-gray-50p-6 rounded-2xl border border-gray-100 shadow-sm">
               <div className="relative w-full h-72 rounded-xl overflow-hidden map-animation">
                 <video autoPlay loop muted playsInline className="w-full h-full object-cover rounded-xl">
                   <source src="/map-animation.mp4" type="video/mp4" />

@@ -22,7 +22,6 @@ export const metadata: Metadata = {
   },
 };
 
-// মোবাইলের জুম ও রেস্পন্সিভনেস সমস্যা পুরোপুরি আটকাতে এটি আপডেট করা হলো
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -40,11 +39,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-gray-950 flex flex-col min-h-screen overflow-x-hidden`}>
         
-        {/* Navbar Header */}
+        {/* Navbar Header (এটি ফिक्सড করার জন্য Navbar কম্পোনেন্টের ভেতরে ক্লাস দিতে হবে) */}
         <Navbar />
 
-        {/* Main Content Area */}
-        <main className="flex-grow w-full overflow-x-hidden">
+        {/* Main Content Area - হেডারের নিচে জায়গা রাখার জন্য pt-20 বা আপনার হেডারের উচ্চতা অনুযায়ী প্যাডিং দিন */}
+        <main className="flex-grow w-full overflow-x-hidden pt-20">
           {children}
         </main>
 
